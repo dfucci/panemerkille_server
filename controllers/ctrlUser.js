@@ -1,10 +1,18 @@
-//require('../models/user.js');
+var User = require('../models/user.js');
 UserController = function(){};
 
 UserController.prototype.getUsers =function() {
 	console.log('Get users');
-	return users = db.user.find();
-
+	var users=Array();
+	User.find({}, function (err, docs) {
+   		docs.forEach(function(user) {
+			users.push(user);
+		});
+		console.log(users);
+		
+	});
+	//asyncronous :(
+	return users;
 }
 
 UserController.prototype.getUser =function(id) {
