@@ -11,26 +11,17 @@ function test (req, res, next) {
   return next();
  }
 
-// var userSchema = new db.Schema({
-// 		name:String,
-// 		surname:String,
-// 		bithdate:String,
-// 		gender:String,
-// 		picture_url:String,
-// 		facebook_id:String,
-// 		email:String
-// 	});
-
-//     var Myuser = db.model('User', userSchema);
-
-
 var server = restify.createServer();
 server.use(restify.bodyParser());
-server.get('/users', test);
+server.get('/users',  function getUsers(req, res, next){
+	console.log("GET users");
+	users=userController.getUsers();
+	res.send(users);
+	return next();
+});
 server.put('/users', test);
 server.post('/users', function createUser(req, res, next){
-	console.log("post " + req.body);
-	//var User = db.model('User', schema);
+	console.log("POST users");
 	var user = new User({
 		name : req.body.name,
 		surname:req.body.surname,
