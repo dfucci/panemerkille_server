@@ -1,9 +1,7 @@
 var restify = require('restify');
 var db = require('mongoose');
 db.connect('mongodb://localhost/panemerkilledb');
-var UserController=require("./controllers/ctrlUser.js").UserController;
-var User = require('./models/user.js');
-userController = new UserController();
+var UserController=require("./controllers/ctrlUser.js");
 function test (req, res, next) {
  console.log(req.url);
  res.send(req.url);
@@ -13,34 +11,17 @@ function test (req, res, next) {
 
 var server = restify.createServer();
 server.use(restify.bodyParser());
-server.get('/users',  function getUsers(req, res, next){
-	console.log("GET users");
-	users=userController.getUsers();
-	res.send(users);
-	return next();
-});
+
+server.get('/users',  UserController.getUsers);
+
 server.put('/users', test);
-server.post('/users', function createUser(req, res, next){
-	console.log("POST users");
-	var user = new User({
-		name : req.body.name,
-		surname:req.body.surname,
-		bithdate:req.body.birthdate,
-		gender:req.body.gender,
-		picture_url:req.body.picture_url,
-		facebook_id:req.body.facebook_id,
-		email:req.body.email
-	});
-	console.log(user);
-	userController.postUser(user);
-	res.send(user);
-	return next();
-});
+server.post('/users', UserController.postUser);
+
 server.del('/users', test);
 
-server.get('/users/:id', test);
+server.get('/users/:_id', UserController.getUser);
 server.put('/users/:id', test);
-server.post('/users/:id', test);
+//server.post('/users/:id', UserContr);
 server.del('/users/:id', test);
 
 server.get('/users/:id/friends', test);
@@ -96,6 +77,11 @@ server.del('/events/:id', test);
 server.on('NotFound', function(req, res) {
   res.send(404, req.url + ' was not found');
 });
+
+server.on('MethodNotAllowed', function(req, res) {
+  res.send(405, req.url + ' method not allowed');
+});
+
 
 server.listen(7777, function() {
   console.log('%s listening at %s', server.name, server.url);
