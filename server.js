@@ -14,15 +14,15 @@ server.use(restify.bodyParser());
 
 server.get('/users',  UserController.getUsers);
 
-server.put('/users', test);
-server.post('/users', UserController.postUser);
+//server.put('/users', test);
+server.post('/users', UserController.postUsers);
 
-server.del('/users', test);
+server.del('/users', UserController.delUsers);
 
 server.get('/users/:_id', UserController.getUser);
-server.put('/users/:id', test);
+server.put('/users/:_id', UserController.putUser);
 //server.post('/users/:id', UserContr);
-server.del('/users/:id', test);
+server.del('/users/:_id', UserController.delUser);
 
 server.get('/users/:id/friends', test);
 server.put('/users/:id/friends', test);

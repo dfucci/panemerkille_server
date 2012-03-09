@@ -3,6 +3,7 @@ var db = require('mongoose')
   , Schema = db.Schema;
 
 var userSchema = new Schema({
+
 		name:String,
 		surname:String,
 		bithdate:String,
