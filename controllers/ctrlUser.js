@@ -1,3 +1,5 @@
+//TODO validazione
+
 var User = require('../models/user.js');
 UserController = function(){};
 
