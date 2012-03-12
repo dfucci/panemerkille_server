@@ -1,0 +1,17 @@
+{
+  "name": "api-easy-tests",
+  "description": "API tests for PaneMerkille",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/indexzero/api-easy.git" 
+  },
+  "dependencies": {
+    "api-easy": "0.2.x"
+  },
+  "devDependencies": {
+    "journey": ">= 0.4.0-pre-2"
+  },
+  "scripts": { "test": "vows tests/*-test.js --spec" },
+  "engines": { "node": ">= 0.4.3" }
+}
