@@ -1,4 +1,4 @@
-
+//TODO imposta i default e limiti
 var db = require('mongoose')
   , Schema = db.Schema;
 
