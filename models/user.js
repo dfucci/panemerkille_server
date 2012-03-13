@@ -10,8 +10,7 @@ var userSchema = new Schema({
 		gender:String,
 		picture_url:String,
 		facebook_id:String,
-		email:String,
-		nickname:String
+		email:String
 });
 
 module.exports = db.model('User', userSchema);
