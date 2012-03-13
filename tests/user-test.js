@@ -39,15 +39,12 @@ suite.discuss('When testing error codes')
 suite.discuss('When testing GET /users')
 .get('/users').expect(200)
 .expect('should respond with a not null JSON object', function(err, res, body) {
-  //console.log('testing "should respond with a not null JSON object"');
   var result = JSON.parse(body);
   assert.isNotNull(result);
 
 })
 .expect('should return an empty JSON array', function  (err, res, body) { 
-  //console.log('testing "should return an empty JSON array"');
-    
-    var results = JSON.parse(body);
+   var results = JSON.parse(body);
    assert.isEmpty(results);
 })
 .undiscuss();
@@ -63,7 +60,6 @@ suite.discuss('When testing POST /users')
     email:'mia@mio.fi'
   })
 .expect('should return a not null JSON object', function  (err, res, body) {
-  //console.log('testing "should return a not null JSON object"');
   var result = JSON.parse(body);
   assert.isNotNull(result);
 })
