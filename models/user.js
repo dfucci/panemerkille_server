@@ -11,7 +11,7 @@ var userSchema = new Schema({
 		picture_url:String,
 		facebook_id:String,
 		email:String,
-		nickname:String
+		
 });
 
 module.exports = db.model('User', userSchema);
