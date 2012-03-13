@@ -17,13 +17,13 @@ exports.getUsers =function(req, res) {
 
 exports.postUsers =function(req, res) {
 var user = new User({
-		name : req.body.name,
-		surname:req.body.surname,
-		bithdate:req.body.birthdate,
-		gender:req.body.gender,
-		picture_url:req.body.picture_url,
-		facebook_id:req.body.facebook_id,
-		email:req.body.email
+		name : req.params.name,
+		surname:req.params.surname,
+		bithdate:req.params.birthdate,
+		gender:req.params.gender,
+		picture_url:req.params.picture_url,
+		facebook_id:req.params.facebook_id,
+		email:req.params.email
 	});
 
 	user.save(function(err) {
@@ -59,17 +59,16 @@ exports.putUser=function (req, res) {
 		'facebook_id',
 		'email'];
 
-	console.log('start');
-if(checkParams(myparams, req)){
-	console.log('params ok');
-	User.update({_id:_id}, {$set:{
-		name : req.body.name,
-		surname:req.body.surname,
-		bithdate:req.body.birthdate,
-		gender:req.body.gender,
-		picture_url:req.body.picture_url,
-		facebook_id:req.body.facebook_id,
-		email:req.body.email
+	console.log('start: ' + req.params.name);
+	if(checkParams(myparams, req)){
+		User.update({_id:_id}, {$set:{
+			name : req.params.name,
+			surname:req.params.surname,
+			bithdate:req.params.birthdate,
+			gender:req.params.gender,
+			picture_url:req.params.picture_url,
+			facebook_id:req.params.facebook_id,
+			email:req.params.email
 	}}, {upsert: true},function  (err) {
 		if (!err){
 			res.send(req.url);
@@ -94,17 +93,22 @@ exports.delUser=function (req, res) {
 
 exports.UserController=UserController;
 
-function checkParams (params, req) {
-	console.log('checking');
-	for (var i = 0 ; i < params.length; i++) {
-		console.log(i);
-		if(!(_.include(req.params, params[i]))){
-			console.log('false');
-			return false;
-			}
 
-		}
-
-		if (req.body.params.length>1) return true;
-		else return false;
+function checkParams(arr, req){
+  console.log("Checking");
+    // Make sure each param listed in arr is present in req.query
+    var missing_params = [];
+    for(var i=0;i<arr.length;i++){
+        if(typeof eval("req.params." + arr[i]) == "undefined"){
+        missing_params.push(arr[i]);
+      }
+    }
+    if(missing_params.length == 0){
+      console.log("No missing param");
+      return true;
+    } else {
+      console.log("Missing params");
+      console.log(missing_params[0]);
+      return false;
+    }
 }

@@ -10,8 +10,12 @@ var userSchema = new Schema({
 		gender:String,
 		picture_url:String,
 		facebook_id:String,
+<<<<<<< HEAD
 		email:String,
 		
+=======
+		email:String
+>>>>>>> 7e0ab122a1aa7e45e7841e8fe83bbcb62c0d9674
 });
 
 module.exports = db.model('User', userSchema);
