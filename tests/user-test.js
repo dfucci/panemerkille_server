@@ -13,7 +13,7 @@ suite.use('localhost', 7777);
 suite.discuss('When using the User resource')
 suite.before('set up the context', function(ongoing) {
     User.remove({}, function  (err) {
-      if(!err) console.log('ok');
+      if(!err) console.log('Emptied DB');
       else console.log(err);
     });
     suite.setHeader('Content-Type', 'application/json')
@@ -40,13 +40,13 @@ suite.discuss('When testing GET /users')
 .setHeader('Content-Type', 'application/json')
 .get('/users').expect(200)
 .expect('should respond with a not null JSON object', function(err, res, body) {
-  console.log('testing "should respond with a not null JSON object"');
+  //console.log('testing "should respond with a not null JSON object"');
   var result = JSON.parse(body);
   assert.isNotNull(result);
 
 })
 .expect('should return an empty JSON array', function  (err, res, body) { 
-  console.log('testing "should return an empty JSON array"');
+  //console.log('testing "should return an empty JSON array"');
     
     var results = JSON.parse(body);
    assert.isEmpty(results);
@@ -64,7 +64,7 @@ suite.discuss('When testing POST /users')
     email:'mia@mio.fi'
   })
 .expect('should return a not null JSON object', function  (err, res, body) {
-  console.log('testing "should return a not null JSON object"');
+  //console.log('testing "should return a not null JSON object"');
   var result = JSON.parse(body);
   assert.isNotNull(result);
 })

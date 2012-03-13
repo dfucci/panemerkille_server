@@ -12,6 +12,7 @@ function test (req, res, next) {
 
 var server = restify.createServer();
 server.use(restify.bodyParser());
+server.use(restify.queryParser());
 
 server.get('/users',  UserController.getUsers);
 
