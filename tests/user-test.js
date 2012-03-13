@@ -16,11 +16,11 @@ suite.before('set up the context', function(ongoing) {
       if(!err) console.log('Emptied DB');
       else console.log(err);
     });
-    suite.setHeader('Content-Type', 'application/json')
     return ongoing;
 });
 
 suite.discuss('When testing error codes')
+  .setHeader('Content-Type', 'application/x-www-form-urlencoded')
   .put('/users/michele').expect(400)
   .put('/users').expect(405)
   .post('/users/michele').expect(405)
@@ -37,7 +37,6 @@ suite.discuss('When testing error codes')
 .undiscuss();
 
 suite.discuss('When testing GET /users')
-.setHeader('Content-Type', 'application/json')
 .get('/users').expect(200)
 .expect('should respond with a not null JSON object', function(err, res, body) {
   //console.log('testing "should respond with a not null JSON object"');
