@@ -1,5 +1,5 @@
 /*TODO
--test PUT con id sbagliato 404
+
 */
 var User = require('../models/user.js');
 var db = require('mongoose');
@@ -12,10 +12,7 @@ suite.use('localhost', 7777);
 
 suite.discuss('When using the User resource')
 suite.before('set up the context', function(ongoing) {
-    User.remove({}, function  (err) {
-      if(!err) console.log('Emptied DB');
-      else console.log(err);
-    });
+    User.remove({}, function  (err) {});
     return ongoing;
 });
 
@@ -50,6 +47,7 @@ suite.discuss('When testing GET /users')
 .undiscuss();
 
 suite.discuss('When testing POST /users')
+.setHeader('Content-Type', 'application/x-www-form-urlencoded')
 .post('/users', {
     name:'Davide',
     surname:'F',
