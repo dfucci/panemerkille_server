@@ -6,7 +6,7 @@ var userSchema = new Schema({
 
 		name:String,
 		surname:String,
-		bithdate:String,
+		birthdate:String,
 		gender:String,
 		picture_url:String,
 		facebook_id:String,
