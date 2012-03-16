@@ -2,7 +2,6 @@
 - aggiundere la risposta in POST nell'header 'Location' e codice 201
 - 
 */
-var _ = require('../libs/underscore')._;
 var User = require('../models/user.js');
 UserController = function(){};
 
@@ -19,7 +18,7 @@ exports.postUsers =function(req, res) {
 var user = new User({
 		name : req.params.name,
 		surname:req.params.surname,
-		bithdate:req.params.birthdate,
+		birthdate:req.params.birthdate,
 		gender:req.params.gender,
 		picture_url:req.params.picture_url,
 		facebook_id:req.params.facebook_id,
@@ -53,7 +52,7 @@ exports.getUser = function(req, res) {
 exports.putUser=function (req, res) {
 	var myparams=['name',
 		'surname',
-		'bithdate',
+		'birthdate',
 		'gender',
 		'picture_url',
 		'facebook_id',
@@ -61,18 +60,23 @@ exports.putUser=function (req, res) {
 
 	console.log('start: ' + req.params.name);
 	if(checkParams(myparams, req)){
+	console.log("Uploading user");
 		User.update({_id:_id}, {$set:{
 			name : req.params.name,
 			surname:req.params.surname,
-			bithdate:req.params.birthdate,
+			birthdate:req.params.birthdate,
 			gender:req.params.gender,
 			picture_url:req.params.picture_url,
 			facebook_id:req.params.facebook_id,
 			email:req.params.email
 	}}, {upsert: true},function  (err) {
 		if (!err){
+			console.log("user updated");
 			res.send(req.url);
-		} else res.send(404, req.url+" not found");
+		} else {
+			console.log("Error updating user");
+			res.send(404, req.url+" not found");
+		}
 		
 	});	
 	} else {
