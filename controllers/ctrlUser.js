@@ -6,7 +6,15 @@ var User = require('../models/user.js');
 UserController = function(){};
 
 exports.getUsers =function(req, res) {
-	User.find({}, function (err, docs) {
+	var myuser = {};
+	if(req.params.name!=undefined) myuser.name=req.params.name;
+	if(req.params.surname!=undefined) myuser.surname=req.params.surname;
+	if(req.params.birthdate!=undefined) myuser.birthdate=req.params.bithdate;
+	if(req.params.gender!=undefined) myuser.gender=req.params.gender;
+	if(req.params.picture_url!=undefined) myuser.picture_url=req.params.picture_url;
+	if(req.params.facebook_id!=undefined) myuser.facebook_id=req.params.facebook_id;
+	if(req.params.email!=undefined) myuser.email=req.params.email;
+	User.find(myuser, function (err, docs) {
 			if(!err){
 				res.send(docs);
 			} else res.send(err);
