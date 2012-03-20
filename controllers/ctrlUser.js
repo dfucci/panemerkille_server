@@ -2,6 +2,7 @@
 - aggiundere la risposta in POST nell'header 'Location' e codice 201
 - 
 */
+
 _=require('../libs/underscore.js');
 var User = require('../models/user.js');
 var userAttrs = ['name', 'surname', 'birthdate', 'gender', 'picture_url', 'facebook_id', 'email'];
