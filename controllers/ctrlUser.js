@@ -26,7 +26,6 @@ exports.getUsers =function(req, res) {
 		});	
 	}
 
-
 exports.postUsers =function(req, res) {
 var user = new User({
 		name : req.params.name,
