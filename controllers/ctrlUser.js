@@ -7,6 +7,7 @@ var User = require('../models/user.js');
 var userAttrs = ['name', 'surname', 'birthdate', 'gender', 'picture_url', 'facebook_id', 'email'];
 UserController = function(){};
 
+
 exports.getUsers =function(req, res) {
 	//TODO: caso in cui ci sono solo parametri dummy
 	
