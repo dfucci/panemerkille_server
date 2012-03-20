@@ -2,19 +2,24 @@
 - aggiundere la risposta in POST nell'header 'Location' e codice 201
 - 
 */
+_=require('../libs/underscore.js');
 var User = require('../models/user.js');
+var userAttrs = ['name', 'surname', 'birthdate', 'gender', 'picture_url', 'facebook_id', 'email'];
 UserController = function(){};
 
 exports.getUsers =function(req, res) {
-	var myuser = {};
-	if(req.params.name!=undefined) myuser.name=req.params.name;
-	if(req.params.surname!=undefined) myuser.surname=req.params.surname;
-	if(req.params.birthdate!=undefined) myuser.birthdate=req.params.bithdate;
-	if(req.params.gender!=undefined) myuser.gender=req.params.gender;
-	if(req.params.picture_url!=undefined) myuser.picture_url=req.params.picture_url;
-	if(req.params.facebook_id!=undefined) myuser.facebook_id=req.params.facebook_id;
-	if(req.params.email!=undefined) myuser.email=req.params.email;
-	User.find(myuser, function (err, docs) {
+	//TODO: caso in cui ci sono solo parametri dummy
+	
+	 var myuser = {};
+	// _.each(req.query,function  (v,k) {
+	// 	if(_.include(userAttrs, k))	{
+	// 		if(!(_.isNull(v) || _.isUndefined(v) || v=='') ){
+	// 			myuser[k]=v;
+	// 		}
+	// 	}
+	// });
+	console.log(req.query); 
+	User.find(req.query, function (err, docs) {
 			if(!err){
 				res.send(docs);
 			} else res.send(err);
