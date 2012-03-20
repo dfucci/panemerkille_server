@@ -31,10 +31,15 @@ server.put('/users/:id/friends', test);
 server.post('/users/:id/friends', test);
 server.del('/users/:id/friends', test);
 
-server.get('/users/:id/patches', test);
-server.put('/users/:id/patches', test);
-server.post('/users/:id/patches', test);
-server.del('/users/:id/patches', test);
+// server.get('/users/:id/patches', test);  user.patches
+// server.put('/users/:id/patches', test); //TODO
+server.post('/users/:_id/patches', UserController.postUserPatches);
+//server.del('/users/:id/patches', test); //TODO
+
+//server.get('/users/:id/checkins', UserController.getUserCheckins); uso user.checkins
+//server.put('/users/:id/checkins', test);  //TODO
+server.post('/users/:_id/checkins', UserController.postUserCheckins);
+//server.del('/users/:id/checkins', test); //TODO
 
 server.get('/venues', VenueController.getVenues);
 //server.put('/venues', VenueController.putVenue);
