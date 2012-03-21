@@ -68,7 +68,7 @@ exports.putUser = function(req, res) {
 	if (checkParams(myparams, req)) {
 		var name={firstname:req.params.firstname, surname:req.params.surname};
 		User.update({
-			_id: _id
+			_id: req.params._id
 		}, {
 			$set: {
 				name:name,
