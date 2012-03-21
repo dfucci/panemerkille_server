@@ -34,7 +34,7 @@ server.del('/users/:id/friends', test);
 // server.get('/users/:id/patches', test);  user.patches
 // server.put('/users/:id/patches', test); //TODO
 server.post('/users/:_id/patches', UserController.postUserPatches);
-//server.del('/users/:id/patches', test); //TODO
+server.del('/users/:_id/patches', UserController.delUserPatches); //TODO
 
 //server.get('/users/:id/checkins', UserController.getUserCheckins); uso user.checkins
 //server.put('/users/:id/checkins', test);  //TODO
