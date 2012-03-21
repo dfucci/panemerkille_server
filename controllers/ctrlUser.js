@@ -4,7 +4,7 @@
 */
 _ = require('../libs/underscore.js');
 var User = require('../models/user.js');
-var userAttrs = ['name', 'surname', 'birthdate', 'gender', 'picture_url', 'facebook_id', 'email'];
+var userAttrs = ['firstname', 'surname', 'birthdate', 'gender', 'picture_url', 'facebook_id', 'email'];
 UserController = function() {};
 
 
@@ -26,9 +26,9 @@ exports.getUsers = function(req, res) {
 }
 
 exports.postUsers = function(req, res) {
+	var name={firstname:req.params.firstname, surname:req.params.surname};
 	var user = new User({
-		name: req.params.name,
-		surname: req.params.surname,
+		name:name,
 		birthdate: req.params.birthdate,
 		gender: req.params.gender,
 		picture_url: req.params.picture_url,
@@ -42,6 +42,7 @@ exports.postUsers = function(req, res) {
 		} else res.send(err);
 	});
 }
+
 exports.delUsers = function(req, res) {
 	User.remove({}, function(err) {
 		if (!err) {
@@ -63,17 +64,14 @@ exports.getUser = function(req, res) {
 }
 
 exports.putUser = function(req, res) {
-	var myparams = ['name', 'surname', 'birthdate', 'gender', 'picture_url', 'facebook_id', 'email'];
-
-	console.log('start: ' + req.params.name);
+	var myparams = ['surname', 'firstname', 'birthdate', 'gender', 'picture_url', 'facebook_id', 'email'];
 	if (checkParams(myparams, req)) {
-		console.log("Uploading user");
+		var name={firstname:req.params.firstname, surname:req.params.surname};
 		User.update({
 			_id: _id
 		}, {
 			$set: {
-				name: req.params.name,
-				surname: req.params.surname,
+				name:name,
 				birthdate: req.params.birthdate,
 				gender: req.params.gender,
 				picture_url: req.params.picture_url,
@@ -120,7 +118,7 @@ exports.postUserCheckins = function(req, res) {
 		if (!err) {
 			checkin.save(function(err) {
 				if (!err) {
-					res.send(req.url + '/' + user._id);
+					res.send('/users/' + user._id);
 				} else {
 					res.send(err);
 				}
@@ -139,11 +137,11 @@ exports.postUserPatches = function(req, res) {
 		_id: _id
 	}, function(err, user) {
 		if (!err) {
-			user.patches.push({patch:req.params.patch});
+			user.patches.push({patch:req.params.patch, timestamp: new Date()});
 			user.save(function(err) {
 				if (!err) {
 					//patch.save(function(err) {
-					res.send(req.url + '/' + user._id);
+					res.send('users/' + user._id);
 				} else {
 					res.send(err);
 
@@ -153,6 +151,29 @@ exports.postUserPatches = function(req, res) {
 	});
 
 }
+
+exports.delUserPatches = function(req, res) {
+	_id = req.params._id;
+	console.log("entrato" + _id);
+	User.findOne({
+		_id: _id
+	}, function(err, user) {
+		if (!err) {
+			user.patches=[];
+			user.save(function(err) {
+				if (!err) {
+					//patch.save(function(err) {
+					res.send('/users/' + user._id);
+				} else {
+					res.send(err);
+
+				}
+			});
+		} else res.send(404, req.url + " not found");
+	});
+
+}
+
 
 
 exports.UserController = UserController;
