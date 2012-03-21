@@ -4,6 +4,7 @@ db.connect('mongodb://localhost/panemerkilledb');
 
 var UserController=require("./controllers/ctrlUser.js");
 var VenueController=require("./controllers/ctrlVenue.js");
+var PatchController=require("./controllers/ctrlPatch.js");
 
 function test (req, res, next) {
  console.log(req.url);
@@ -63,15 +64,15 @@ server.put('/checkins/:_id', test);
 server.post('/checkins/:_id', test);
 server.del('/checkins/:_id', test);
 
-server.get('/patches', test);
-server.put('/patches', test);
-server.post('/patches', test);
-server.del('/patches', test);
+server.get('/patches', PatchController.getPatches);
+//server.put('/patches', test);
+server.post('/patches', PatchController.postPatches);
+server.del('/patches', PatchController.delPatches);
 
-server.get('/patches/:_id', test);
-server.put('/patches/:id', test);
-server.post('/patches/:_id', test);
-server.del('/patches/:_id', test);
+server.get('/patches/:_id', PatchController.getPatch);
+server.put('/patches/:_id', PatchController.putPatch);
+//server.post('/patches/:_id', PatchController);
+server.del('/patches/:_id', PatchController.delPatch);
 
 server.get('/events', test);
 server.put('/events', test);
