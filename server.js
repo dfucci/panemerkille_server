@@ -1,8 +1,10 @@
 var restify = require('restify');
 var db = require('mongoose');
 db.connect('mongodb://localhost/panemerkilledb');
+
 var UserController=require("./controllers/ctrlUser.js");
 var VenueController=require("./controllers/ctrlVenue.js");
+
 function test (req, res, next) {
  console.log(req.url);
  res.send(req.url);
