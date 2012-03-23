@@ -1,7 +1,5 @@
-/*TODO validazione
-- aggiundere la risposta in POST nell'header 'Location' e codice 201
-- 
-*/
+//TODO: validazione
+//- aggiundere la risposta in POST nell'header 'Location' e codice 201
 _ = require('../libs/underscore.js');
 var User = require('../models/user.js');
 var userAttrs = ['firstname', 'surname', 'birthdate', 'gender', 'picture_url', 'facebook_id', 'email'];
@@ -10,7 +8,7 @@ UserController = function() {};
 
 exports.getUsers = function(req, res) {
 	//TODO: caso in cui ci sono solo parametri dummy
-	var myuser = {};
+	//var myuser = {};
 	// _.each(req.query,function  (v,k) {
 	// 	if(_.include(userAttrs, k))	{
 	// 		if(!(_.isNull(v) || _.isUndefined(v) || v=='') ){
@@ -66,6 +64,7 @@ exports.getUser = function(req, res) {
 exports.putUser = function(req, res) {
 	var myparams = ['surname', 'firstname', 'birthdate', 'gender', 'picture_url', 'facebook_id', 'email'];
 	if (checkParams(myparams, req)) {
+
 		var name={firstname:req.params.firstname, surname:req.params.surname};
 		User.update({
 			_id: req.params._id
@@ -179,20 +178,27 @@ exports.delUserPatches = function(req, res) {
 exports.UserController = UserController;
 
 function checkParams(arr, req) {
-	console.log("Checking");
 	// Make sure each param listed in arr is present in req.query
-	var missing_params = [];
-	for (var i = 0; i < arr.length; i++) {
-		if (typeof eval("req.params." + arr[i]) == "undefined") {
-			missing_params.push(arr[i]);
+	var missing = false;
+	_.each(arr, function(param) {
+		if(_.isUndefined(req.params[param]|| _.isNull(req.params[param])))
+		{
+			missing = true;
 		}
-	}
-	if (missing_params.length == 0) {
-		console.log("No missing param");
-		return true;
-	} else {
-		console.log("Missing params");
-		console.log(missing_params[0]);
-		return false;
-	}
+	});
+	return missing;
+	// var missing_params = [];
+	// for (var i = 0; i < arr.length; i++) {
+	// 	if (typeof eval("req.params." + arr[i]) == "undefined") {
+	// 		missing_params.push(arr[i]);
+	// 	}
+	// }
+	// if (missing_params.length == 0) {
+	// 	console.log("No missing param");
+	// 	return true;
+	// } else {
+	// 	console.log("Missing params");
+	// 	console.log(missing_params[0]);
+	// 	return false;
+	// }
 }
