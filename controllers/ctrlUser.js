@@ -7,7 +7,24 @@ UserController = function() {};
 
 
 exports.getUsers = function(req, res) {
-	User.find(req.query, function(err, docs) {
+	var myname={};
+	if (!_.isUndefined(req.query.surname)) {
+		myname.surname = req.query.surname;
+	}
+	if (!_.isUndefined(req.query.firstname)) {
+		myname.firstname = req.query.firstname;
+	}
+	
+	var myuser = {
+		name: myname
+	};
+	_.each(user_params, function(param) {
+		if (!_.isUndefined(req.params[param]) && !(param == 'surname') && !(param=='firstname')) {
+			myuser[param] = req.params[param];
+		}
+	});
+	console.log(myuser);
+	User.find(myuser, function(err, docs) {
 		if (!err) {
 			res.send(docs);
 		} else res.send(err);
@@ -15,9 +32,12 @@ exports.getUsers = function(req, res) {
 }
 
 exports.postUsers = function(req, res) {
-	var name={firstname:req.params.firstname, surname:req.params.surname};
+	var name = {
+		firstname: req.params.firstname,
+		surname: req.params.surname
+	};
 	var user = new User({
-		name:name,
+		name: name,
 		birthdate: req.params.birthdate,
 		gender: req.params.gender,
 		picture_url: req.params.picture_url,
@@ -55,12 +75,15 @@ exports.getUser = function(req, res) {
 exports.putUser = function(req, res) {
 	if (checkParams(user_params, req)) {
 
-		var name={firstname:req.params.firstname, surname:req.params.surname};
+		var name = {
+			firstname: req.params.firstname,
+			surname: req.params.surname
+		};
 		User.update({
 			_id: req.params._id
 		}, {
 			$set: {
-				name:name,
+				name: name,
 				birthdate: req.params.birthdate,
 				gender: req.params.gender,
 				picture_url: req.params.picture_url,
@@ -126,7 +149,10 @@ exports.postUserPatches = function(req, res) {
 		_id: _id
 	}, function(err, user) {
 		if (!err) {
-			user.patches.push({patch:req.params.patch, timestamp: new Date()});
+			user.patches.push({
+				patch: req.params.patch,
+				timestamp: new Date()
+			});
 			user.save(function(err) {
 				if (!err) {
 					//patch.save(function(err) {
@@ -148,7 +174,7 @@ exports.delUserPatches = function(req, res) {
 		_id: _id
 	}, function(err, user) {
 		if (!err) {
-			user.patches=[];
+			user.patches = [];
 			user.save(function(err) {
 				if (!err) {
 					//patch.save(function(err) {
@@ -171,8 +197,7 @@ function checkParams(arr, req) {
 	// Make sure each param listed in arr is present in req.query
 	var missing = false;
 	_.each(arr, function(param) {
-		if(_.isUndefined(req.params[param]|| _.isNull(req.params[param])))
-		{
+		if (_.isUndefined(req.params[param] || _.isNull(req.params[param]))) {
 			missing = true;
 		}
 	});
