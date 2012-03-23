@@ -2,20 +2,11 @@
 //- aggiundere la risposta in POST nell'header 'Location' e codice 201
 _ = require('../libs/underscore.js');
 var User = require('../models/user.js');
-var userAttrs = ['firstname', 'surname', 'birthdate', 'gender', 'picture_url', 'facebook_id', 'email'];
+var user_params = ['surname', 'firstname', 'birthdate', 'gender', 'picture_url', 'facebook_id', 'email'];
 UserController = function() {};
 
 
 exports.getUsers = function(req, res) {
-	//TODO: caso in cui ci sono solo parametri dummy
-	//var myuser = {};
-	// _.each(req.query,function  (v,k) {
-	// 	if(_.include(userAttrs, k))	{
-	// 		if(!(_.isNull(v) || _.isUndefined(v) || v=='') ){
-	// 			myuser[k]=v;
-	// 		}
-	// 	}
-	// });
 	User.find(req.query, function(err, docs) {
 		if (!err) {
 			res.send(docs);
@@ -62,8 +53,7 @@ exports.getUser = function(req, res) {
 }
 
 exports.putUser = function(req, res) {
-	var myparams = ['surname', 'firstname', 'birthdate', 'gender', 'picture_url', 'facebook_id', 'email'];
-	if (checkParams(myparams, req)) {
+	if (checkParams(user_params, req)) {
 
 		var name={firstname:req.params.firstname, surname:req.params.surname};
 		User.update({

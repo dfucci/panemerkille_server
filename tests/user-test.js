@@ -30,7 +30,7 @@ suite.discuss('When testing error codes')
     picture_url:'none',
     facebook_id:'Aldo',
     email:'mia@mio.fi'
-  }).expect(404)
+  }).expect(400)
 .undiscuss();
 
 suite.discuss('When testing GET /users')
