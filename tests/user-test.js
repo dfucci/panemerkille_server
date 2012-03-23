@@ -38,7 +38,6 @@ suite.discuss('When testing GET /users')
 .expect('should respond with a not null JSON object', function(err, res, body) {
   var result = JSON.parse(body);
   assert.isNotNull(result);
-
 })
 .expect('should return an empty JSON array', function  (err, res, body) { 
    var results = JSON.parse(body);
