@@ -23,7 +23,7 @@ suite.discuss('When testing error codes')
   .post('/users/michele').expect(405)
   .get('/users/michele').expect(404)
   .put('/users/michele', {
-    name:'Davide',
+    firstname:'Davide',
     surname:'F',
     birthdate:'06/16/1985',
     gender:'male',
@@ -42,6 +42,17 @@ suite.discuss('When testing GET /users')
 .expect('should return an empty JSON array', function  (err, res, body) { 
    var results = JSON.parse(body);
    assert.isEmpty(results);
+})
+.get('/users', {firstname:'Davide', surname:'F', dummy:'notthere'})
+.expect('should ignore the dummy param', function(err, res, body){
+  var result=JSON.parse(body);
+  assert.isNotNull(result);
+  assert.include(result.name, 'Davide');
+})
+.get('/users', {firstname:'Michele', surname:'F', dummy:'notthere'})
+.expect('should be empty despite the dummy parameter', function  (err, res, body) {
+  var result=JSON.parse(body);
+  assert.isEmpty(result);
 })
 .undiscuss();
 
