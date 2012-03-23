@@ -1,5 +1,4 @@
-//TODO: validazione
-//- aggiundere la risposta in POST nell'header 'Location' e codice 201
+//TODO: aggiundere la risposta in POST nell'header 'Location' e codice 201
 _ = require('../libs/underscore.js');
 var User = require('../models/user.js');
 var user_params = ['surname', 'firstname', 'birthdate', 'gender', 'picture_url', 'facebook_id', 'email'];
@@ -7,24 +6,8 @@ UserController = function() {};
 
 
 exports.getUsers = function(req, res) {
-	var myname={};
-	if (!_.isUndefined(req.query.surname)) {
-		myname.surname = req.query.surname;
-	}
-	if (!_.isUndefined(req.query.firstname)) {
-		myname.firstname = req.query.firstname;
-	}
-	
-	var myuser = {
-		name: myname
-	};
-	_.each(user_params, function(param) {
-		if (!_.isUndefined(req.params[param]) && !(param == 'surname') && !(param=='firstname')) {
-			myuser[param] = req.params[param];
-		}
-	});
-	console.log(myuser);
-	User.find(myuser, function(err, docs) {
+	var usr = createUserFromParams(req); 
+	User.find(usr, function(err, docs) {
 		if (!err) {
 			res.send(docs);
 		} else res.send(err);
@@ -73,7 +56,7 @@ exports.getUser = function(req, res) {
 }
 
 exports.putUser = function(req, res) {
-	if (checkParams(user_params, req)) {
+	if (checkParams(req)) {
 
 		var name = {
 			firstname: req.params.firstname,
@@ -193,27 +176,31 @@ exports.delUserPatches = function(req, res) {
 
 exports.UserController = UserController;
 
-function checkParams(arr, req) {
+function checkParams(req) {
 	// Make sure each param listed in arr is present in req.query
 	var missing = false;
-	_.each(arr, function(param) {
+	_.each(user_params, function(param) {
 		if (_.isUndefined(req.params[param] || _.isNull(req.params[param]))) {
 			missing = true;
 		}
 	});
 	return missing;
-	// var missing_params = [];
-	// for (var i = 0; i < arr.length; i++) {
-	// 	if (typeof eval("req.params." + arr[i]) == "undefined") {
-	// 		missing_params.push(arr[i]);
-	// 	}
-	// }
-	// if (missing_params.length == 0) {
-	// 	console.log("No missing param");
-	// 	return true;
-	// } else {
-	// 	console.log("Missing params");
-	// 	console.log(missing_params[0]);
-	// 	return false;
-	// }
+}
+
+function createUserFromParams(req) {
+	var myuser = {
+		name: {}
+	};
+	_.each(req.query, function(val, key) {
+		if (!_.isUndefined(val) && !_.isNull(val) && _.include(user_params, key)) {
+			if (key == 'firstname') {
+				myuser.name.firstname = val;
+			} else if (key == 'surname') {
+				myuser.name.surname = val;
+			} else {
+				myuser[key] = val;
+			}
+		}
+	});
+	return myuser;
 }
