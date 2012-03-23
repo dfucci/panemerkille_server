@@ -49,7 +49,7 @@ suite.discuss('When testing GET /users')
 suite.discuss('When testing POST /users')
 .setHeader('Content-Type', 'application/x-www-form-urlencoded')
 .post('/users', {
-    name:'Davide',
+    firstname:'Davide',
     surname:'F',
     birthdate:'06/16/1985',
     gender:'male',
@@ -61,6 +61,14 @@ suite.discuss('When testing POST /users')
   var result = JSON.parse(body);
   assert.isNotNull(result);
 })
-.undiscuss()
+.undiscuss();
+suite.discuss('When passig undefined parameters')
+.setHeader('Content-Type', 'application/x-www-form-urlencoded')
+.put('/users/4f6c46f7958ffb3617000002',{
+})
+.expect('should return error message', function(err, res, body) {
+  var result=JSON.parse(body);
+  assert.include(result, 'Required parameter missing');
+})
 .undiscuss()
 .export(module);
