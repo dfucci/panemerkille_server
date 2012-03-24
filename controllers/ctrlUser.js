@@ -1,4 +1,5 @@
 //TODO: aggiundere la risposta in POST nell'header 'Location' e codice 201
+//TODO: la get non funziona se name è vuoto o manca uno dei due
 _ = require('../libs/underscore.js');
 var User = require('../models/user.js');
 var user_params = ['surname', 'firstname', 'birthdate', 'gender', 'picture_url', 'facebook_id', 'email'];
@@ -7,6 +8,7 @@ UserController = function() {};
 
 exports.getUsers = function(req, res) {
 	var usr = createUserFromParams(req); 
+	console.log(usr);
 	User.find(usr, function(err, docs) {
 		if (!err) {
 			res.send(docs);
@@ -56,15 +58,12 @@ exports.getUser = function(req, res) {
 }
 
 exports.putUser = function(req, res) {
-	if (paramsMissing(req)) {
-
+	if (paramsOK(req)) {
 		var name = {
 			firstname: req.params.firstname,
 			surname: req.params.surname
 		};
-		User.update({
-			_id: req.params._id
-		}, {
+		User.update({_id: req.params._id},{
 			$set: {
 				name: name,
 				birthdate: req.params.birthdate,
@@ -73,13 +72,14 @@ exports.putUser = function(req, res) {
 				facebook_id: req.params.facebook_id,
 				email: req.params.email
 			}
-		}, {
-			upsert: true
-		}, function(err) {
+		}, 
+		{upsert: true},
+		function(err) {
 			if (!err) {
 				console.log("user updated");
 				res.send(req.url);
 			} else {
+				console.log(err);
 				console.log("Error updating user");
 				res.send(404, req.url + " not found");
 			}
@@ -176,15 +176,18 @@ exports.delUserPatches = function(req, res) {
 
 exports.UserController = UserController;
 
-function paramsMissing(req) {
-	// Make sure each param listed in arr is present in req.query
-	var missing = false;
-	_.each(user_params, function(param) {
-		if (_.isUndefined(req.params[param] || _.isNull(req.params[param]))) {
-			missing = true;
-		}
+function paramsOK(req) {
+	return _.all(user_params, function(param) { //returns true if all pass the condition
+		return (!_.isUndefined(req.params[param]) || !_.isNull(req.params[param]));
 	});
-	return missing;
+	// Make sure each param listed in arr is present in req.query
+	// var missing = false;
+	// _.each(user_params, function(param) {
+	// 	if (_.isUndefined(req.params[param] || _.isNull(req.params[param]))) {
+	// 		missing = true;
+	// 	}
+	// });
+	// return missing;
 }
 
 function createUserFromParams(req) {

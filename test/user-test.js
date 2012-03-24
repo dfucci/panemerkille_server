@@ -18,19 +18,10 @@ suite.before('set up the context', function(ongoing) {
 
 suite.discuss('When testing error codes')
   .setHeader('Content-Type', 'application/x-www-form-urlencoded')
-  .put('/users/michele').expect(400)
+  .put('/users/michele').expect(404)
   .put('/users').expect(405)
   .post('/users/michele').expect(405)
   .get('/users/michele').expect(404)
-  .put('/users/michele', {
-    firstname:'Davide',
-    surname:'F',
-    birthdate:'06/16/1985',
-    gender:'male',
-    picture_url:'none',
-    facebook_id:'Aldo',
-    email:'mia@mio.fi'
-  }).expect(400)
 .undiscuss();
 
 suite.discuss('When testing GET /users')
@@ -74,8 +65,7 @@ suite.discuss('When testing POST /users')
 .undiscuss();
 suite.discuss('When passig undefined parameters')
 .setHeader('Content-Type', 'application/x-www-form-urlencoded')
-.put('/users/4f6c46f7958ffb3617000002',{
-})
+.put('/users/4f6da1c2c883b3a825000001',{})
 .expect('should return error message', function(err, res, body) {
   var result=JSON.parse(body);
   assert.include(result, 'Required parameter missing');
