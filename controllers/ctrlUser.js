@@ -56,7 +56,7 @@ exports.getUser = function(req, res) {
 }
 
 exports.putUser = function(req, res) {
-	if (checkParams(req)) {
+	if (paramsMissing(req)) {
 
 		var name = {
 			firstname: req.params.firstname,
@@ -176,7 +176,7 @@ exports.delUserPatches = function(req, res) {
 
 exports.UserController = UserController;
 
-function checkParams(req) {
+function paramsMissing(req) {
 	// Make sure each param listed in arr is present in req.query
 	var missing = false;
 	_.each(user_params, function(param) {
