@@ -209,10 +209,10 @@ function createUserName (req) { //porcata micidiale
 function createUserFromParams(req) {
 	var myuser = createUserName(req);
 	_.each(req.query, function(val, key) {
-		if (!_.isUndefined(val) && !_.isNull(val) && _.include(user_params, key)) {
-			if ((key != 'firstname') && (key!='surname')) {
+		if (!_.isUndefined(val) && !_.isNull(val) && _.include(user_params, key) && (key != 'firstname') && (key!='surname')) {
+			//if ((key != 'firstname') && (key!='surname')) {
 				myuser[key] = val;
-			}
+			//}
 		}
 	});
 	return myuser;
