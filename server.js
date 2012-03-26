@@ -5,6 +5,7 @@ db.connect('mongodb://localhost/panemerkilledb');
 var UserController=require("./controllers/ctrlUser.js");
 var VenueController=require("./controllers/ctrlVenue.js");
 var PatchController=require("./controllers/ctrlPatch.js");
+var EventController=require("./controllers/ctrlEvent.js");
 
 function test (req, res, next) {
  console.log(req.url);
@@ -54,6 +55,10 @@ server.put('/venues/:_id', VenueController.putVenue);
 //server.post('/venues/:id', VenueController.postVenue);
 server.del('/venues/:_id', VenueController.delVenue);
 
+server.post('/venues/:_id/events', VenueController.postVenueEvents);
+
+
+
 server.get('/checkins', test);
 server.put('/checkins', test);
 server.post('/checkins', test);
@@ -74,15 +79,15 @@ server.put('/patches/:_id', PatchController.putPatch);
 //server.post('/patches/:_id', PatchController);
 server.del('/patches/:_id', PatchController.delPatch);
 
-server.get('/events', test);
-server.put('/events', test);
-server.post('/events', test);
-server.del('/events', test);
+server.get('/events', EventController.getEvents);
+//server.put('/events', test);
+//server.post('/events', EventController.postEvents);
+//server.del('/events', EventController.delEvents);
 
-server.get('/events/:_id', test);
-server.put('/events/:_id', test);
-server.post('/events/:_id', test);
-server.del('/events/:_id', test);
+//server.get('/events/:_id', EventController.getEvent); TODO:
+//server.put('/events/:_id', EventController.putEvent); TODO:
+//server.post('/events/:_id', test);
+//server.del('/events/:_id', EventController.delEvent); TODO:
 
 server.on('NotFound', function(req, res) {
   res.send(404, req.url + ' was not found');

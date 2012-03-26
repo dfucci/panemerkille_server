@@ -1,4 +1,8 @@
-var Venue = require('../models/Venue.js');
+var Venue = require('../models/venue.js');
+var Event = require('../models/event.js').Event;
+
+console.log(Event);
+
 VenueController = function(){};
 
 exports.getVenues =function(req, res) {
@@ -73,5 +77,40 @@ exports.delVenue=function (req, res) {
 		}	
 	});	
 }
+
+
+
+exports.postVenueEvents= function(req, res) {
+	_id = req.params._id;
+	console.log(_id);
+	Venue.findOne({
+		_id: _id
+	}, function(err, venue) {
+		
+		if (!err) {
+			console.log(venue);
+			time = {start:req.params.start,end:req.params.end};
+			var event = new Event({
+				name: req.params.name,
+				poster_url:req.params.poster_url,
+				description:req.params.description,
+				facebook_url:req.params.facebook_url,
+				time: time
+			});
+			venue.events.push(event);
+			venue.save(function(err) {
+				if (!err) {
+					//patch.save(function(err) {
+					res.send('venue/' + venue._id);
+				} else {
+					res.send(err);
+
+				}
+			});
+		} else res.send(404, req.url + " not found");
+	});
+
+}
+
 
 exports.VenueController=VenueController;
