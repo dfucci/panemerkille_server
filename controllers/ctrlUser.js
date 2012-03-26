@@ -189,18 +189,28 @@ function paramsOK(req) {
 	// });
 	// return missing;
 }
+function createUserName (req) { //porcata micidiale
+	if(!_.isUndefined(req.params.firstname) && !_.isUndefined(req.params.surname)){
+		myuser={'name.firstname':req.params.firstname, 'name.surname':req.params.surname};
+		return myuser;
+	} else if (!_.isUndefined(req.params.firstname) && _.isUndefined(req.params.surname)){
+		myuser={'name.firstname':req.params.firstname};
+		return myuser;
+	} else if (_.isUndefined(req.params.firstname) && !_.isUndefined(req.params.surname)){
+		myuser={'name.surname':req.params.surname};
+		return myuser;
+	} else if (_.isUndefined(req.params.firstname) && _.isUndefined(req.params.surname)){
+		myuser={};
+		return myuser;
+	}
+}
+
 
 function createUserFromParams(req) {
-	var myuser = {
-		name: {}
-	};
+	var myuser = createUserName(req);
 	_.each(req.query, function(val, key) {
 		if (!_.isUndefined(val) && !_.isNull(val) && _.include(user_params, key)) {
-			if (key == 'firstname') {
-				myuser.name.firstname = val;
-			} else if (key == 'surname') {
-				myuser.name.surname = val;
-			} else {
+			if ((key != 'firstname') && (key!='surname')) {
 				myuser[key] = val;
 			}
 		}
