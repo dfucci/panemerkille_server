@@ -5,14 +5,19 @@ var User = require('../models/user.js');
 var user_params = ['surname', 'firstname', 'birthdate', 'gender', 'picture_url', 'facebook_id', 'email'];
 UserController = function() {};
 
-
-exports.getUsers = function(req, res) {
+//using populate to get the checkins and patches along with the user(s)
+exports.getUsers = function(req, res){
 	var usr = createUserFromParams(req); 
-	console.log(usr);
-	User.find(usr, function(err, docs) {
-		if (!err) {
-			res.send(docs);
-		} else res.send(err);
+	User.find(usr)
+	.populate('patches')
+	.populate('checkins')
+	.run(function(err, users) {
+		if(!err){
+			console.log(users);
+			res.send(users);
+		} else {
+			res.send(err);
+		}
 	});
 }
 
