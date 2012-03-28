@@ -12,11 +12,14 @@ var userSchema = new Schema({
 		email:String,
 		checkins: [{
 			timestamp:Date,
-			party: ObjectId
+			type: Schema.ObjectId,
+			ref: 'Checkin'
 		}],
 		patches: [{
 			timestamp:Date,
-			patch:ObjectId
+			type: Schema.ObjectId,
+			ref: 'Patch',
+			claimed: Boolean
 		}]
 });
 
