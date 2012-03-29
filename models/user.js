@@ -10,17 +10,15 @@ var userSchema = new Schema({
 		picture_url:String,
 		facebook_id:String,
 		email:String,
-		checkins: [{
+		checkins: [new Schema({
 			timestamp:Date,
-			type: Schema.ObjectId,
-			ref: 'Checkin'
-		}],
-		patches: [{
+			checkin:{type: ObjectId, ref: 'Checkin'}
+		})],
+		patches: [new Schema({
 			timestamp:Date,
-			type: Schema.ObjectId,
-			ref: 'Patch',
-			claimed: Boolean
-		}]
+			patch: {type: ObjectId, ref: 'Patch'},
+			claimed: {type: Boolean, default:false}
+		})]
 });
 
 module.exports = db.model('User', userSchema);
