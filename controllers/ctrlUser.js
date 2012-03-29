@@ -9,8 +9,6 @@ UserController = function() {};
 exports.getUsers = function(req, res){
 	var usr = createUserFromParams(req); 
 	User.find(usr)
-	.populate('patches')
-	.populate('checkins')
 	.run(function(err, users) {
 		if(!err){
 			console.log(users);
@@ -53,16 +51,16 @@ exports.delUsers = function(req, res) {
 
 exports.getUser = function(req, res) {
 	_id = req.params._id;
-	User.findOne({
-		_id: _id
-	}, function(err, doc) {
+	User.findOne({_id: _id})
+	.populate('patches.patch')
+	.run(function(err, doc) {
 		if (!err) {
 			res.send(doc);
 		} else res.send(404, req.url + " not found");
 	});
 }
 
-exports.putUser = function(req, res) {
+exports.putUser = function(req, res) { 
 	if (paramsOK(req)) {
 		var name = {
 			firstname: req.params.firstname,
@@ -138,6 +136,7 @@ exports.postUserPatches = function(req, res) {
 	}, function(err, user) {
 		if (!err) {
 			user.patches.push({
+				claimed:req.params.claimed,
 				patch: req.params.patch,
 				timestamp: new Date()
 			});
