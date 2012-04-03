@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "name": "api-easy-tests",
   "description": "API tests for PaneMerkille",
   "version": "0.1.0",
@@ -8,29 +7,11 @@
     "url": "http://github.com/indexzero/api-easy.git" 
   },
   "dependencies": {
-    "api-easy": "0.2.x",
-    "restify" : "1.1.1"
+    "api-easy": "0.2.x"
   },
   "devDependencies": {
     "journey": ">= 0.4.0-pre-2"
   },
   "scripts": { "test": "vows tests/*-test.js --spec" },
   "engines": { "node": ">= 0.4.3" }
-=======
-  "name":    "facebook-template-node",
-  "version": "0.0.1",
-
-  "description": "Template app for Heroku / Facebook integration, Node.js language",
-
-  "dependencies": {
-    "async":     "0.1.18",
-    "ejs":       "0.4.3",
-    "express":   "2.4.6",
-    "faceplate": "0.0.4"
-  },
-
-  "engines": {
-    "node": "0.6.x"
-  }
->>>>>>> 4ed2cbc308ac67bd1b4ab3bab0bf89953385dfcd
 }
