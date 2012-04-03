@@ -96,7 +96,7 @@ server.on('NotFound', function(req, res) {
 server.on('MethodNotAllowed', function(req, res) {
   res.send(405, req.url + ' method not allowed');
 });
-
-server.listen(7777, function() {
+var port = process.env.PORT || 3000;
+server.listen(port, function() {
   console.log('%s listening at %s', server.name, server.url);
 });
