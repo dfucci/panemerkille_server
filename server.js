@@ -1,7 +1,8 @@
 var restify = require('restify');
 var db = require('mongoose');
-db.connect('mongodb://localhost/panemerkilledb');
-
+var mongoURL = process.env.MONGOLAB_URI || "mongodb://localhost/panemerkille";
+db.connect(mongoURL);
+var port = process.env.PORT || 7777;
 var UserController=require("./controllers/ctrlUser.js");
 var VenueController=require("./controllers/ctrlVenue.js");
 var PatchController=require("./controllers/ctrlPatch.js");
@@ -96,7 +97,6 @@ server.on('NotFound', function(req, res) {
 server.on('MethodNotAllowed', function(req, res) {
   res.send(405, req.url + ' method not allowed');
 });
-var port = process.env.PORT || 3000;
 server.listen(port, function() {
   console.log('%s listening at %s', server.name, server.url);
 });
