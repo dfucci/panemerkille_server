@@ -9,13 +9,13 @@ var PatchController=require("./controllers/ctrlPatch.js");
 var EventController=require("./controllers/ctrlEvent.js");
 
 function test (req, res, next) {
- console.log(req.url);
+ req.log.info({params:req.params}, 'Trying to get homepage: %s', 'foo' );
  res.send(req.url);
-  mongo.user.save();
   return next();
  }
-
 var server = restify.createServer();
+
+server.get('/', test);
 server.use(restify.bodyParser());
 server.use(restify.queryParser());
 
