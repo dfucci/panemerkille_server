@@ -7,7 +7,9 @@
     "url": "http://github.com/indexzero/api-easy.git" 
   },
   "dependencies": {
-    "api-easy": "0.2.x"
+    "api-easy": "0.2.x",
+    "mongoose": "",
+    "restify":""
   },
   "devDependencies": {
     "journey": ">= 0.4.0-pre-2"
