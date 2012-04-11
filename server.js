@@ -9,7 +9,7 @@ var PatchController=require("./controllers/ctrlPatch.js");
 var EventController=require("./controllers/ctrlEvent.js");
 
 function test (req, res, next) {
- req.log.info({params:req.params}, 'Trying to get homepage: %s', 'foo' );
+ req.log.debug({params:req.params}, 'Trying to get homepage: %s', 'foo' );
  res.send(req.url);
   return next();
  }
