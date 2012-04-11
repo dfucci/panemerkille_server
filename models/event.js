@@ -9,6 +9,8 @@ var eventSchema = new Schema({
 		description:String,
 		facebook_url:String
 });
-var Event = db.model('Event', eventSchema);
-module.exports.Event = Event;
-module.exports.eventSchema = eventSchema;
+
+module.exports = db.model('Event', eventSchema);
+// var Event = db.model('Event', eventSchema);
+// module.exports.Event = Event;
+// module.exports.eventSchema = eventSchema;

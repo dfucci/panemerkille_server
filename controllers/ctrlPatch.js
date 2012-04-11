@@ -26,7 +26,7 @@ exports.postPatches = function(req, res) {
 
 	patch.save(function(err) {
 		if (!err) {
-			res.send(req.url + '/' + patch._id);
+			res.send('events/' + patch._id);
 		} else res.send(err);
 	});
 }

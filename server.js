@@ -1,8 +1,10 @@
 var restify = require('restify');
 var db = require('mongoose');
-var mongoURL = process.env.MONGOLAB_URI || "mongodb://localhost/panemerkille";
+var mongoURL = process.env.MONGOLAB_URI || "mongodb://localhost/panemerkilledb";
+console.log(mongoURL);
 db.connect(mongoURL);
 var port = process.env.PORT || 7777;
+console.log(port);
 var UserController=require("./controllers/ctrlUser.js");
 var VenueController=require("./controllers/ctrlVenue.js");
 var PatchController=require("./controllers/ctrlPatch.js");
@@ -80,9 +82,9 @@ server.put('/patches/:_id', PatchController.putPatch);
 //server.post('/patches/:_id', PatchController);
 server.del('/patches/:_id', PatchController.delPatch);
 
-server.get('/events', EventController.getEvents);
+//server.get('/events', EventController.getEvents);
 //server.put('/events', test);
-//server.post('/events', EventController.postEvents);
+server.post('/events', EventController.postEvents);
 //server.del('/events', EventController.delEvents);
 
 //server.get('/events/:_id', EventController.getEvent); TODO:

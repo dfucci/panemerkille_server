@@ -12,7 +12,7 @@ var userSchema = new Schema({
 		email:String,
 		checkins: [new Schema({
 			timestamp:Date,
-			checkin:{type: ObjectId, ref: 'Checkin'}
+			event:{type: ObjectId, ref: 'Event'}
 		})],
 		patches: [new Schema({
 			timestamp:Date,
