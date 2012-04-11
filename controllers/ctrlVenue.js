@@ -89,15 +89,7 @@ exports.postVenueEvents= function(req, res) {
 		
 		if (!err) {
 			console.log(venue);
-			time = {start:req.params.start,end:req.params.end};
-			var event = new Event({
-				name: req.params.name,
-				poster_url:req.params.poster_url,
-				description:req.params.description,
-				facebook_url:req.params.facebook_url,
-				time: time
-			});
-			venue.events.push(event);
+			venue.events.push(req.params.event);
 			venue.save(function(err) {
 				if (!err) {
 					//patch.save(function(err) {

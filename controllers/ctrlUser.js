@@ -6,11 +6,11 @@ var user_params = ['surname', 'firstname', 'birthdate', 'gender', 'picture_url',
 UserController = function() {};
 
 //using populate to get the checkins and patches along with the user(s)
-exports.getUsers = function(req, res){
-	var usr = createUserFromParams(req); 
-	User.find(usr)
-	.run(function(err, users) {
-		if(!err){
+exports.getUsers = function(req, res) {
+	console.log('getUsers');
+	var usr = createUserFromParams(req);
+	User.find(usr).run(function(err, users) {
+		if (!err) {
 			console.log(users);
 			res.send(users);
 		} else {
@@ -51,22 +51,24 @@ exports.delUsers = function(req, res) {
 
 exports.getUser = function(req, res) {
 	_id = req.params._id;
-	User.findOne({_id: _id})
-	.populate('patches.patch')
-	.run(function(err, doc) {
+	User.findOne({
+		_id: _id
+	}).populate('patches.patch').run(function(err, doc) {
 		if (!err) {
 			res.send(doc);
 		} else res.send(404, req.url + " not found");
 	});
 }
 
-exports.putUser = function(req, res) { 
+exports.putUser = function(req, res) {
 	if (paramsOK(req)) {
 		var name = {
 			firstname: req.params.firstname,
 			surname: req.params.surname
 		};
-		User.update({_id: req.params._id},{
+		User.update({
+			_id: req.params._id
+		}, {
 			$set: {
 				name: name,
 				birthdate: req.params.birthdate,
@@ -75,9 +77,9 @@ exports.putUser = function(req, res) {
 				facebook_id: req.params.facebook_id,
 				email: req.params.email
 			}
-		}, 
-		{upsert: true},
-		function(err) {
+		}, {
+			upsert: true
+		}, function(err) {
 			if (!err) {
 				console.log("user updated");
 				res.send(req.url);
@@ -106,37 +108,36 @@ exports.delUser = function(req, res) {
 }
 
 exports.postUserCheckins = function(req, res) {
-
-	var checkin = new Checkin({
-		event: req.params.event,
-		user: req.params._id
-	});
-	user.checkins.push(checkin);
-	user.save(function(err) {
+	_id = req.params._id;
+	User.findOne({
+		_id: _id
+	}, function(err, user) {
 		if (!err) {
-			checkin.save(function(err) {
+			user.checkins.push({
+				timestamp: new Date(),
+				event: req.params.event
+			});
+			user.save(function(err) {
 				if (!err) {
-					res.send('/users/' + user._id);
+					res.send('users/' + user._id);
 				} else {
 					res.send(err);
 				}
 			});
 		} else {
-			res.send(err);
-
+			res.send(404, req.url + 'not found');
 		}
 	});
 }
 
 exports.postUserPatches = function(req, res) {
 	_id = req.params._id;
-	console.log("entrato" + _id);
 	User.findOne({
 		_id: _id
 	}, function(err, user) {
 		if (!err) {
 			user.patches.push({
-				claimed:req.params.claimed,
+				claimed: req.params.claimed,
 				patch: req.params.patch,
 				timestamp: new Date()
 			});
@@ -193,18 +194,26 @@ function paramsOK(req) {
 	// });
 	// return missing;
 }
-function createUserName (req) { //porcata micidiale
-	if(!_.isUndefined(req.params.firstname) && !_.isUndefined(req.params.surname)){
-		myuser={'name.firstname':req.params.firstname, 'name.surname':req.params.surname};
+
+function createUserName(req) { //porcata micidiale
+	if (!_.isUndefined(req.params.firstname) && !_.isUndefined(req.params.surname)) {
+		myuser = {
+			'name.firstname': req.params.firstname,
+			'name.surname': req.params.surname
+		};
 		return myuser;
-	} else if (!_.isUndefined(req.params.firstname) && _.isUndefined(req.params.surname)){
-		myuser={'name.firstname':req.params.firstname};
+	} else if (!_.isUndefined(req.params.firstname) && _.isUndefined(req.params.surname)) {
+		myuser = {
+			'name.firstname': req.params.firstname
+		};
 		return myuser;
-	} else if (_.isUndefined(req.params.firstname) && !_.isUndefined(req.params.surname)){
-		myuser={'name.surname':req.params.surname};
+	} else if (_.isUndefined(req.params.firstname) && !_.isUndefined(req.params.surname)) {
+		myuser = {
+			'name.surname': req.params.surname
+		};
 		return myuser;
-	} else if (_.isUndefined(req.params.firstname) && _.isUndefined(req.params.surname)){
-		myuser={};
+	} else if (_.isUndefined(req.params.firstname) && _.isUndefined(req.params.surname)) {
+		myuser = {};
 		return myuser;
 	}
 }
@@ -213,9 +222,9 @@ function createUserName (req) { //porcata micidiale
 function createUserFromParams(req) {
 	var myuser = createUserName(req);
 	_.each(req.query, function(val, key) {
-		if (!_.isUndefined(val) && !_.isNull(val) && _.include(user_params, key) && (key != 'firstname') && (key!='surname')) {
+		if (!_.isUndefined(val) && !_.isNull(val) && _.include(user_params, key) && (key != 'firstname') && (key != 'surname')) {
 			//if ((key != 'firstname') && (key!='surname')) {
-				myuser[key] = val;
+			myuser[key] = val;
 			//}
 		}
 	});
