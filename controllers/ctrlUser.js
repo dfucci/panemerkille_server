@@ -7,7 +7,6 @@ UserController = function() {};
 
 //using populate to get the checkins and patches along with the user(s)
 exports.getUsers = function(req, res) {
-	console.log('getUsers');
 	var usr = createUserFromParams(req);
 	User.find(usr).run(function(err, users) {
 		if (!err) {
@@ -53,7 +52,7 @@ exports.getUser = function(req, res) {
 	_id = req.params._id;
 	User.findOne({
 		_id: _id
-	}).populate('patches.patch').run(function(err, doc) {
+	}).populate('patches.patch').populate('checkins.event').run(function(err, doc) {
 		if (!err) {
 			res.send(doc);
 		} else res.send(404, req.url + " not found");

@@ -1,4 +1,5 @@
-//TODO imposta i default e limiti
+//TODO: imposta i default e limiti
+//TODO: location dell'utente
 var db = require('mongoose')
   , Schema = db.Schema
   , ObjectId=Schema.ObjectId;
