@@ -1,13 +1,13 @@
 //TODO: aggiundere la risposta in POST nell'header 'Location' e codice 201
-//TODO: la get non funziona se name è vuoto o manca uno dei due
 _ = require('../libs/underscore.js');
 var User = require('../models/user.js');
-var user_params = ['surname', 'firstname', 'birthdate', 'gender', 'picture_url', 'facebook_id', 'email'];
+var user_params = ['surname', 'firstname', 'birthdate', 'gender', 'picture_url', 'facebook_id', 'email', 'city'];
 UserController = function() {};
 
 //using populate to get the checkins and patches along with the user(s)
 exports.getUsers = function(req, res) {
 	var usr = createUserFromParams(req);
+	console.log(usr);
 	User.find(usr).run(function(err, users) {
 		if (!err) {
 			console.log(users);
@@ -29,7 +29,8 @@ exports.postUsers = function(req, res) {
 		gender: req.params.gender,
 		picture_url: req.params.picture_url,
 		facebook_id: req.params.facebook_id,
-		email: req.params.email
+		email: req.params.email,
+		city:req.params.city
 	});
 
 	user.save(function(err) {
@@ -74,7 +75,8 @@ exports.putUser = function(req, res) {
 				gender: req.params.gender,
 				picture_url: req.params.picture_url,
 				facebook_id: req.params.facebook_id,
-				email: req.params.email
+				email: req.params.email,
+				city:req.params.city
 			}
 		}, {
 			upsert: true
@@ -184,14 +186,6 @@ function paramsOK(req) {
 	return _.all(user_params, function(param) { //returns true if all pass the condition
 		return (!_.isUndefined(req.params[param]) || !_.isNull(req.params[param]));
 	});
-	// Make sure each param listed in arr is present in req.query
-	// var missing = false;
-	// _.each(user_params, function(param) {
-	// 	if (_.isUndefined(req.params[param] || _.isNull(req.params[param]))) {
-	// 		missing = true;
-	// 	}
-	// });
-	// return missing;
 }
 
 function createUserName(req) { //porcata micidiale
@@ -222,9 +216,7 @@ function createUserFromParams(req) {
 	var myuser = createUserName(req);
 	_.each(req.query, function(val, key) {
 		if (!_.isUndefined(val) && !_.isNull(val) && _.include(user_params, key) && (key != 'firstname') && (key != 'surname')) {
-			//if ((key != 'firstname') && (key!='surname')) {
 			myuser[key] = val;
-			//}
 		}
 	});
 	return myuser;
