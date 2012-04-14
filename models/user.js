@@ -1,5 +1,6 @@
 //TODO: imposta i default e limiti
-//TODO: location dell'utente
+//TODO: aggiungere signup date
+//TODO: usa Mongoose Virtuals per il nome
 var db = require('mongoose')
   , Schema = db.Schema
   , ObjectId=Schema.ObjectId;
