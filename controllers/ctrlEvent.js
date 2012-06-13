@@ -43,14 +43,14 @@ exports.postEvents = function(req, res){
 
 
 exports.getEvent = function(req, res) {
-	// _id = req.params._id;
-	// Event.findOne({
-	// 	_id: _id
-	// }, function(err, doc) {
-	// 	if (!err) {
-	// 		res.send(doc);
-	// 	} else res.send(404, req.url + " not found");
-	// });
+	_id = req.params._id;
+	Event.findOne({
+		_id: _id
+	}, function(err, doc) {
+		if (!err) {
+			res.send(doc);
+		} else res.send(404, req.url + " not found");
+	});
 }
 
 exports.putEvent = function(req, res) {

@@ -87,7 +87,7 @@ server.del('/patches/:_id', PatchController.delPatch);
 server.post('/events', EventController.postEvents);
 //server.del('/events', EventController.delEvents);
 
-//server.get('/events/:_id', EventController.getEvent); TODO:
+server.get('/events/:_id', EventController.getEvent); 
 //server.put('/events/:_id', EventController.putEvent); TODO:
 //server.post('/events/:_id', test);
 //server.del('/events/:_id', EventController.delEvent); TODO:
