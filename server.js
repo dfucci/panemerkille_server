@@ -1,6 +1,6 @@
 var restify = require('restify');
 var db = require('mongoose');
-var mongoURL = process.env.MONGOLAB_URI || "mongodb://localhost/panemerkilledb";
+var mongoURL = process.env.MONGOLAB_URI || "mongodb://localhost/heroku_app3697279";
 console.log(mongoURL);
 db.connect(mongoURL);
 var port = process.env.PORT || 7777;
@@ -58,7 +58,7 @@ server.put('/venues/:_id', VenueController.putVenue);
 //server.post('/venues/:id', VenueController.postVenue);
 server.del('/venues/:_id', VenueController.delVenue);
 
-server.post('/venues/:_id/events', VenueController.postVenueEvents);
+//server.post('/venues/:_id/events', VenueController.postVenueEvents); // never used
 
 
 
@@ -82,15 +82,15 @@ server.put('/patches/:_id', PatchController.putPatch);
 //server.post('/patches/:_id', PatchController);
 server.del('/patches/:_id', PatchController.delPatch);
 
-//server.get('/events', EventController.getEvents);
+server.get('/events', EventController.getEvents);
 //server.put('/events', test);
 server.post('/events', EventController.postEvents);
 //server.del('/events', EventController.delEvents);
 
 server.get('/events/:_id', EventController.getEvent); 
-//server.put('/events/:_id', EventController.putEvent); TODO:
+//server.put('/events/:_id', EventController.putEvent); TODO
 //server.post('/events/:_id', test);
-//server.del('/events/:_id', EventController.delEvent); TODO:
+server.del('/events/:_id', EventController.delEvent); 
 
 server.on('NotFound', function(req, res) {
   res.send(404, req.url + ' was not found');

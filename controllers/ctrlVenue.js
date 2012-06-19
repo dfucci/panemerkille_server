@@ -31,6 +31,8 @@ var venue = new Venue({
 		}
 	});
 }
+
+
 exports.delVenues=function (req,res) {
 	Venue.remove({}, function  (err) {
 		if(!err){
@@ -48,7 +50,7 @@ exports.getVenue = function(req, res) {
 		}
 	});	
 }
-
+//TODO: check 
 exports.putVenue=function (req, res) {
  	_id=req.params._id;
 	Venue.update({_id:_id}, {$set:{
@@ -80,29 +82,29 @@ exports.delVenue=function (req, res) {
 
 
 
-exports.postVenueEvents= function(req, res) {
-	_id = req.params._id;
-	console.log(_id);
-	Venue.findOne({
-		_id: _id
-	}, function(err, venue) {
+// exports.postVenueEvents= function(req, res) {
+// 	_id = req.params._id;
+// 	console.log(_id);
+// 	Venue.findOne({
+// 		_id: _id
+// 	}, function(err, venue) {
 		
-		if (!err) {
-			console.log(venue);
-			venue.events.push(req.params.event);
-			venue.save(function(err) {
-				if (!err) {
-					//patch.save(function(err) {
-					res.send('venue/' + venue._id);
-				} else {
-					res.send(err);
+// 		if (!err) {
+// 			console.log(venue);
+// 			venue.events.push(req.params.event);
+// 			venue.save(function(err) {
+// 				if (!err) {
+// 					//patch.save(function(err) {
+// 					res.send('venue/' + venue._id);
+// 				} else {
+// 					res.send(err);
 
-				}
-			});
-		} else res.send(404, req.url + " not found");
-	});
+// 				}
+// 			});
+// 		} else res.send(404, req.url + " not found");
+// 	});
 
-}
+// }
 
 
 exports.VenueController=VenueController;
