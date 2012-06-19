@@ -7,7 +7,8 @@ var eventSchema = new Schema({
 		time:{start:Date, end:Date},
 		poster_url:String,
 		description:String,
-		facebook_url:String
+		facebook_url:String,
+		venue: {type:ObjectId, ref: 'Venue'}
 });
 
 module.exports = db.model('Event', eventSchema);

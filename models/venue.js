@@ -11,13 +11,13 @@ var venueSchema = new Schema({
 	name: String,
 	address: String,
 	picture_url: String,
-	description: String,
-	events: [new Schema({
-		event: {
-			type: ObjectId,
-			ref: 'Event'
-		}
-	})]
+	description: String
+	// events: [new Schema({
+	// 	event: {
+	// 		type: ObjectId,
+	// 		ref: 'Event'
+	// 	}
+	// })]
 });
 
 module.exports = db.model('Venue', venueSchema);
