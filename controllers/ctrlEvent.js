@@ -16,7 +16,7 @@ exports.getEvents = function(req, res) {
 		end = new Date();
 		end.setDate(end.getDate() + 7);
 	}
-	Event.find({'time.start':{$gte:start}, 'time.end':{$lte:end}}).sort('time.start', 1).populate('venue').run(function(err, events){
+	Event.find({'time.start':{$gte:start}, 'time.end':{$lte:end}}).sort('time.start', -1).populate('venue').run(function(err, events){
 		if (err) {
 			res.send(500, err);
 		}else{
