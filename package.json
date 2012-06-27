@@ -16,5 +16,5 @@
     "journey": ">= 0.4.0-pre-2"
   },
   "scripts": { "test": "vows tests/*-test.js --spec" },
-  "engines": { "node": ">= 0.4.3" }
+  "engines": { "node": ">= 0.6.0", "npm": ">= 1.1.x" }
 }
