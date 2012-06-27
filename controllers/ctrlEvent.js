@@ -7,16 +7,16 @@ EventController = function() {};
 
 
 exports.getEvents = function(req, res) {
-	var now;
-	var oneweek;
+	var start;
+	var end;
 	if (req.params.start == undefined) {
-		now = new Date();
+		start = new Date();
 	}
 	if (req.params.end == undefined) {
-		oneweek = new Date();
-		oneweek.setDate(oneweek.getDate() + 7);
+		end = new Date();
+		end.setDate(end.getDate() + 7);
 	}
-	Event.find({$or:[{'time.end':{$gte:now}, 'time.end':{$lte:oneweek}},{'time.start':{$lte:now}, 'time.end':{$gte:now}}]}).sort('time.start', 1).populate('venue').run(function(err, events){
+	Event.find({'time.start':{$gte:start}, 'time.end':{$lte:end}}).sort('time.start', 1).populate('venue').run(function(err, events){
 		if (err) {
 			res.send(500, err);
 		}else{
