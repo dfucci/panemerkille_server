@@ -9,7 +9,7 @@
   "dependencies": {
     "api-easy": "0.2.x",
     "mongoose": "",
-    "restify":"",
+    "restify":"1.4.3",
     "node-static":""
   },
   "devDependencies": {
