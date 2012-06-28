@@ -7,16 +7,16 @@ EventController = function() {};
 
 
 exports.getEvents = function(req, res) {
-	var start;
-	var end;
+	var now;
+	var oneweek;
 	if (req.params.start == undefined) {
-		start = new Date();
+		now = new Date();
 	}
 	if (req.params.end == undefined) {
-		end = new Date();
-		end.setDate(end.getDate() + 7);
+		oneweek = new Date();
+		oneweek.setDate(oneweek.getDate() + 7);
 	}
-	Event.find({$or:[{'time.end':{$gte:start}, 'time.end':{$lte:end}},{'time.start':{$lte:start}, 'time.start':{$gte:end}}]}).sort('time.start', 1).populate('venue').exec(function(err, events){
+	Event.find({$or:[{'time.end':{$gte:now}, 'time.start':{$lte:now}}, {'time.start':{$gte:now, $lte:oneweek}}]}).sort('time.start', 1).populate('venue').exec(function(err, events){
 		if (err) {
 			res.send(500, err);
 		}else{
@@ -24,8 +24,8 @@ exports.getEvents = function(req, res) {
 		}
 	});
 }
-
-
+// {'time.end':{$gte:now}, 'time.start':{$lte:now}}
+// {'time.start':{$gte:now, $lte:oneweek}}
 exports.postEvents = function(req, res) {
 	var time = {
 		start: req.params.start,
