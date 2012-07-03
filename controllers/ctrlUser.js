@@ -1,6 +1,6 @@
 //TODO: aggiundere la risposta in POST nell'header 'Location' e codice 201
 _ = require('../libs/underscore.js');
-var fbClient = require("facebook-client").FacebookClient;
+
 var User = require('../models/user.js');
 var user_params = ['surname', 'firstname', 'birthdate', 'gender', 'picture_url', 'facebook_id', 'email', 'city'];
 UserController = function() {};
@@ -179,27 +179,27 @@ exports.delUserPatches = function(req, res) {
 }
 
 exports.getUserFriends = function(req, res) {
-	_id = req.params._id;
-	User.findOne({
-		_id: _id
-	}, function(err, user) {
-		if (err) {
-			res.send(err);
-		} else {
-			var fb = new fbClient(366089376758944, "112ed12b57843d035ba39c26ffb3be3d", {
-				"timeout": 10000
-			});
-			fb.getSessionByRequestHeaders(req.headers)(function(facebook_session) {
-				if (!facebook_session) {
-					console.log('no facebook');
-					return;
-				}
-				facebook_session.graphCall("/me", {})(function(result) {
-					console.log('Username is:' + result.name);
-				});
-			});
-		}
-	});
+	// _id = req.params._id;
+	// User.findOne({
+	// 	_id: _id
+	// }, function(err, user) {
+	// 	if (err) {
+	// 		res.send(err);
+	// 	} else {
+	// 		var fb = new fbClient(366089376758944, "112ed12b57843d035ba39c26ffb3be3d", {
+	// 			"timeout": 10000
+	// 		});
+	// 		fb.getSessionByRequestHeaders(req.headers)(function(facebook_session) {
+	// 			if (!facebook_session) {
+	// 				console.log('no facebook');
+	// 				return;
+	// 			}
+	// 			facebook_session.graphCall("/me", {})(function(result) {
+	// 				console.log('Username is:' + result.name);
+	// 			});
+	// 		});
+	// 	}
+	// });
 }
 //TODO: alert che scoppia
 exports.putUserFriends = function(req, res) {
