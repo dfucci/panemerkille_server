@@ -33,10 +33,10 @@ server.put('/users/:_id', UserController.putUser);
 //server.post('/users/:id', UserContr);
 server.del('/users/:_id', UserController.delUser);
 
-server.get('/users/:id/friends', test);
-server.put('/users/:id/friends', test);
-server.post('/users/:id/friends', test);
-server.del('/users/:id/friends', test);
+server.get('/users/:_id/friends', UserController.getUserFriends); //returns friends' last checkin
+server.put('/users/:_id/friends', UserController.putUserFriends);
+// server.post('/users/:id/friends', test);
+// server.del('/users/:id/friends', test);
 
 // server.get('/users/:id/patches', test);  user.patches
 // server.put('/users/:id/patches', test); //TODO
@@ -62,15 +62,15 @@ server.del('/venues/:_id', VenueController.delVenue);
 
 
 
-server.get('/checkins', test);
-server.put('/checkins', test);
-server.post('/checkins', test);
-server.del('/checkins', test);
+// server.get('/checkins', test);
+// server.put('/checkins', test);
+// server.post('/checkins', test);
+// server.del('/checkins', test);
 
-server.get('/checkins/:_id', test);
-server.put('/checkins/:_id', test);
-server.post('/checkins/:_id', test);
-server.del('/checkins/:_id', test);
+// server.get('/checkins/:_id', test);
+// server.put('/checkins/:_id', test);
+// server.post('/checkins/:_id', test);
+// server.del('/checkins/:_id', test);
 
 server.get('/patches', PatchController.getPatches);
 //server.put('/patches', test);

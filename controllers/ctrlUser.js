@@ -1,5 +1,6 @@
 //TODO: aggiundere la risposta in POST nell'header 'Location' e codice 201
 _ = require('../libs/underscore.js');
+var fbClient = require("facebook-client").FacebookClient;
 var User = require('../models/user.js');
 var user_params = ['surname', 'firstname', 'birthdate', 'gender', 'picture_url', 'facebook_id', 'email', 'city'];
 UserController = function() {};
@@ -30,7 +31,7 @@ exports.postUsers = function(req, res) {
 		picture_url: req.params.picture_url,
 		facebook_id: req.params.facebook_id,
 		email: req.params.email,
-		city:req.params.city
+		city: req.params.city
 	});
 
 	user.save(function(err) {
@@ -76,7 +77,7 @@ exports.putUser = function(req, res) {
 				picture_url: req.params.picture_url,
 				facebook_id: req.params.facebook_id,
 				email: req.params.email,
-				city:req.params.city
+				city: req.params.city
 			}
 		}, {
 			upsert: true
@@ -158,7 +159,6 @@ exports.postUserPatches = function(req, res) {
 
 exports.delUserPatches = function(req, res) {
 	_id = req.params._id;
-	console.log("entrato" + _id);
 	User.findOne({
 		_id: _id
 	}, function(err, user) {
@@ -173,12 +173,85 @@ exports.delUserPatches = function(req, res) {
 
 				}
 			});
-		} else res.send(404, req.url + " not found");
+		} else res.send(500, err);
 	});
 
 }
 
+exports.getUserFriends = function(req, res) {
+	_id = req.params._id;
+	User.findOne({
+		_id: _id
+	}, function(err, user) {
+		if (err) {
+			res.send(err);
+		} else {
+			var fb = new fbClient(366089376758944, "112ed12b57843d035ba39c26ffb3be3d", {
+				"timeout": 10000
+			});
+			fb.getSessionByRequestHeaders(req.headers)(function(facebook_session) {
+				if (!facebook_session) {
+					console.log('no facebook');
+					return;
+				}
+				facebook_session.graphCall("/me", {})(function(result) {
+					console.log('Username is:' + result.name);
+				});
+			});
+		}
+	});
+}
+//TODO: alert che scoppia
+exports.putUserFriends = function(req, res) {
+	_id = req.params._id;
+	User.update({
+		_id: _id
+	}, {
+		$unset: {
+			friends: 1
+		}
+	}, function(err, number) {
+		if (err) res.send(err);
+		else {
+			console.log(number);
+			//user.friends.length = 0;
+			var friends = JSON.parse(req.params.friends);
+			console.log('I tuoi amici sono ' + friends.length);
+			User.findOne({
+				_id: _id
+			}, function(err, user) {
+				if (err) res.send(500, err);
+				else {
+					var count = 0;
+					for (var i = 0; i < friends.length; i++) {
+						User.findOne({
+							facebook_id: friends[i].id
+						}, function(err, friend) {
+							if (err) res.send(500, err);
+							else {
+								// console.log("prima del push " + user.friends);
+								user.friends.push({
+									friend: friend._id
+								});
+								// console.log("dopo il push " + user.friends);
+								user.save(function(err) {
+									if (err)res.send(err);
+									else {
+										count++;
+										if (count ==friends.length-1){
+											res.send('/users/' + _id);
+										}
+									}
+								});
+							}
+						});
+					}
+				}
+			});
 
+		}
+	});
+}
 
 exports.UserController = UserController;
 
