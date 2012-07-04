@@ -9,7 +9,7 @@ UserController = function() {};
 exports.getUsers = function(req, res) {
 	var usr = createUserFromParams(req);
 	console.log(usr);
-	User.find(usr).run(function(err, users) {
+	User.find(usr).exec(function(err, users) {
 		if (!err) {
 			console.log(users);
 			res.send(users);
@@ -54,7 +54,7 @@ exports.getUser = function(req, res) {
 	_id = req.params._id;
 	User.findOne({
 		_id: _id
-	}).populate('patches.patch').populate('checkins.event').run(function(err, doc) {
+	}).populate('patches.patch').populate('checkins.event').exec(function(err, doc) {
 		if (!err) {
 			res.send(doc);
 		} else res.send(404, req.url + " not found");
