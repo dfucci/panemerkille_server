@@ -211,7 +211,7 @@ exports.putUserFriends = function(req, res) {
 			friends: 1
 		}
 	}, function(err, number) {
-		if (err) res.send(err);
+		if (err) res.send('1'+err);
 		else {
 			console.log(number);
 			//user.friends.length = 0;
@@ -220,14 +220,14 @@ exports.putUserFriends = function(req, res) {
 			User.findOne({
 				_id: _id
 			}, function(err, user) {
-				if (err) res.send(500, err);
+				if (err) res.send(500, '2'+err);
 				else {
 					var count = 0;
 					for (var i = 0; i < friends.length; i++) {
 						User.findOne({
 							facebook_id: friends[i].id
 						}, function(err, friend) {
-							if (err) res.send(500, err);
+							if (err) res.send(500, '3' + err);
 							else {
 								// console.log("prima del push " + user.friends);
 								user.friends.push({
@@ -235,10 +235,10 @@ exports.putUserFriends = function(req, res) {
 								});
 								// console.log("dopo il push " + user.friends);
 								user.save(function(err) {
-									if (err)res.send(err);
+									if (err)res.send('4' + err);
 									else {
 										count++;
-										if (count ==friends.length-1){
+										if (count == friends.length){
 											res.send('/users/' + _id);
 										}
 									}
