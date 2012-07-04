@@ -202,7 +202,7 @@ exports.getUserFriends = function(req, res) {
 	// });
 }
 //TODO: alert che scoppia
-exports.putUserFriends = function(req, res) {
+exports.postUserFriends = function(req, res) {
 	_id = req.params._id;
 	User.update({
 		_id: _id
