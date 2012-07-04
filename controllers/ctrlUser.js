@@ -179,28 +179,17 @@ exports.delUserPatches = function(req, res) {
 }
 
 exports.getUserFriends = function(req, res) {
-	// _id = req.params._id;
-	// User.findOne({
-	// 	_id: _id
-	// }, function(err, user) {
-	// 	if (err) {
-	// 		res.send(err);
-	// 	} else {
-	// 		var fb = new fbClient(366089376758944, "112ed12b57843d035ba39c26ffb3be3d", {
-	// 			"timeout": 10000
-	// 		});
-	// 		fb.getSessionByRequestHeaders(req.headers)(function(facebook_session) {
-	// 			if (!facebook_session) {
-	// 				console.log('no facebook');
-	// 				return;
-	// 			}
-	// 			facebook_session.graphCall("/me", {})(function(result) {
-	// 				console.log('Username is:' + result.name);
-	// 			});
-	// 		});
-	// 	}
-	// });
-}
+	_id = req.params._id;
+	User.findOne({
+		_id: _id
+	}).populate('friends.friend').exec(function(err, data){
+		if (err) res.send(500, err);
+		else res.send(data.friends);
+	});
+
+	}
+
+
 //TODO: alert che scoppia
 exports.postUserFriends = function(req, res) {
 	_id = req.params._id;
