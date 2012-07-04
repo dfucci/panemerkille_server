@@ -34,7 +34,7 @@ server.put('/users/:_id', UserController.putUser);
 server.del('/users/:_id', UserController.delUser);
 
 server.get('/users/:_id/friends', UserController.getUserFriends); //returns friends' last checkin
-server.post('/users/:_id/friends', UserController.putUserFriends);
+server.put('/users/:_id/friends', UserController.putUserFriends);
 // server.post('/users/:id/friends', test);
 // server.del('/users/:id/friends', test);
 
