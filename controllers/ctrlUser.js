@@ -190,18 +190,19 @@ exports.getUserFriends = function(req, res) {
 			User.findOne({
 				_id: user.friends[i].friend
 			}).populate('checkins.event').exec(function(err, friend) {
-				console.log(friend);
-				output.push(friend);
-				count++;
-				if (count==user.friends.length) {
-					res.send(output);
-				}
-			});
-		}
+				if (err) res.send(500, err);
+				else {
+					output.push(friend);
+					count++;
+					if (count == user.friends.length) {
+						res.send(output);
+					}
+				});
+			}
 
-	});
+		});
 
-}
+	}
 
 
 //TODO: alert che scoppia
