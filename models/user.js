@@ -13,14 +13,14 @@ var userSchema = new Schema({
 		picture_url:String,
 		facebook_id:String,
 		email:String,
+		checkins: [new Schema({
+			timestamp:Date,
+			event:{type: ObjectId, ref: 'Event'}
+		})],
 		patches: [new Schema({
 			timestamp:Date,
 			patch: {type: ObjectId, ref: 'Patch'},
 			claimed: {type: Boolean, default:false}
-		})],
-		checkins: [new Schema({
-			timestamp:Date,
-			event:{type: ObjectId, ref: 'Event'}
 		})],
 		friends: [new Schema({
 			friend: {type:ObjectId, ref:'User'}
