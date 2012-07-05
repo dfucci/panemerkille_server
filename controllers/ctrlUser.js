@@ -197,48 +197,45 @@ exports.getUserFriends = function(req, res) {
 					if (count == user.friends.length) {
 						res.send(output);
 					}
-				});
-			}
+				}
+			});
+		}
 
-		});
+	});
 
-	}
-
+}
 
 //TODO: alert che scoppia
 exports.postUserFriends = function(req, res) {
 	_id = req.params._id;
-	User.update({
+	User.update({ // aggiorno l'utente corrente
 		_id: _id
 	}, {
-		$unset: {
+		$unset: { // piallo via l'array degli amici e lo sostituisco con il nuovo
 			friends: 1
 		}
 	}, function(err, number) {
 		if (err) res.send('1' + err);
 		else {
 			console.log(number);
-			//user.friends.length = 0;
-			var friends = JSON.parse(req.params.friends);
+			var friends = JSON.parse(req.params.friends); 
 			console.log('I tuoi amici sono ' + friends.length);
-			User.findOne({
+			User.findOne({ // mi prendo l'utente corrente
 				_id: _id
 			}, function(err, user) {
 				if (err) res.send(500, '2' + err);
 				else {
 					var count = 0;
-					for (var i = 0; i < friends.length; i++) {
-						User.findOne({
+					for (var i = 0; i < friends.length; i++) { // ciclo su gli amici dell'utente corrente
+						User.findOne({ 
 							facebook_id: friends[i].id
 						}, function(err, friend) {
 							if (err) res.send(500, '3' + err);
 							else {
-								// console.log("prima del push " + user.friends);
-								user.friends.push({
+								user.friends.push({ // aggiungo all'array degli amici se trovo un amico
 									friend: friend._id
 								});
-								// console.log("dopo il push " + user.friends);
-								user.save(function(err) {
+								user.save(function(err) { // salvo l'utente corrente con il nuovo array di amici 
 									if (err) res.send('4' + err);
 									else {
 										count++;
