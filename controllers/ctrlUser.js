@@ -179,15 +179,29 @@ exports.delUserPatches = function(req, res) {
 }
 
 exports.getUserFriends = function(req, res) {
-	_id = req.params._id;
+	var _id = req.params._id;
+	var count = 0;
+	var output = new Array();
 	User.findOne({
 		_id: _id
-	}).populate('friends.friend').exec(function(err, data){
-		if (err) res.send(500, err);
-		else res.send(data.friends);
+	}, function(err, user) {
+		for (var i = 0; i < user.friends.length; i++) {
+			console.log(user.friends[i].friend);
+			User.findOne({
+				_id: user.friends[i].friend
+			}).populate('checkins.event').exec(function(err, friend) {
+				console.log(friend);
+				output.push(friend);
+				count++;
+				if (count==user.friends.length) {
+					res.send(output);
+				}
+			});
+		}
+
 	});
 
-	}
+}
 
 
 //TODO: alert che scoppia
@@ -200,7 +214,7 @@ exports.postUserFriends = function(req, res) {
 			friends: 1
 		}
 	}, function(err, number) {
-		if (err) res.send('1'+err);
+		if (err) res.send('1' + err);
 		else {
 			console.log(number);
 			//user.friends.length = 0;
@@ -209,7 +223,7 @@ exports.postUserFriends = function(req, res) {
 			User.findOne({
 				_id: _id
 			}, function(err, user) {
-				if (err) res.send(500, '2'+err);
+				if (err) res.send(500, '2' + err);
 				else {
 					var count = 0;
 					for (var i = 0; i < friends.length; i++) {
@@ -224,10 +238,10 @@ exports.postUserFriends = function(req, res) {
 								});
 								// console.log("dopo il push " + user.friends);
 								user.save(function(err) {
-									if (err)res.send('4' + err);
+									if (err) res.send('4' + err);
 									else {
 										count++;
-										if (count == friends.length){
+										if (count == friends.length) {
 											res.send('/users/' + _id);
 										}
 									}
