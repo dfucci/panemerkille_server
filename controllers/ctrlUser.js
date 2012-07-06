@@ -192,7 +192,7 @@ exports.getUserFriends = function(req, res) {
 			}).where('checkins').slice(-1).populate('checkins.event').exec(function(err, friend) {
 				if (err) res.send(500, err);
 				else {
-					output.push(friend);
+					if (friend.checkins.length>) output.push(friend);
 					count++;
 					if (count == user.friends.length) {
 						res.send(output);
