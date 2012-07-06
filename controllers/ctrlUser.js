@@ -189,7 +189,7 @@ exports.getUserFriends = function(req, res) {
 			console.log(user.friends[i].friend);
 			User.findOne({
 				_id: user.friends[i].friend
-			}).populate('checkins.event').exec(function(err, friend) {
+			}).populate('checkins.event',{},{},{limit:1}).exec(function(err, friend) {
 				if (err) res.send(500, err);
 				else {
 					output.push(friend);
