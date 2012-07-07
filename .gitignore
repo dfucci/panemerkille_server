@@ -1,4 +1,5 @@
 node_modules/
-nemerkille_server.sublime-workspace
+panemerkille_server.sublime-workspace
 .DS_Store
 npm-debug.log
+dump/
