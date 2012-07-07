@@ -24,8 +24,7 @@ exports.getEvents = function(req, res) {
 		}
 	});
 }
-// {'time.end':{$gte:now}, 'time.start':{$lte:now}}
-// {'time.start':{$gte:now, $lte:oneweek}}
+
 exports.postEvents = function(req, res) {
 	var time = {
 		start: req.params.start,
