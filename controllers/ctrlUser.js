@@ -195,6 +195,7 @@ exports.getUserFriends = function(req, res) {
 					if (friend.checkins.length>0) output.push(friend);
 					count++;
 					if (count == user.friends.length) {
+						output = _.sortBy(output, 'checkins.timestamp');
 						res.send(output);
 					}
 				}
