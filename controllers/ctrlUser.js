@@ -195,8 +195,7 @@ exports.getUserFriends = function(req, res) {
 					if (friend.checkins.length>0) output.push(friend);
 					count++;
 					if (count == user.friends.length) {
-						var results = _.sortBy(output, 'checkins[0].timestamp');
-						res.send(results);
+						res.send(output.sort(compare));
 					}
 				}
 			});
@@ -204,6 +203,12 @@ exports.getUserFriends = function(req, res) {
 
 	});
 
+}
+
+function compare(a,b){
+	if (a.checkins[0].timestamp<b.checkins[0].timestamp) return -1;
+	if (a.checkins[0].timestamp>b.checkins[0].timestamp) return 1;
+	return 0;
 }
 
 //TODO: alert che scoppia
