@@ -1,7 +1,7 @@
 var db = require('mongoose')
   , Schema = db.Schema,
   ObjectId=Schema.ObjectId;
-  
+
 var eventSchema = new Schema({
 	name: String,
 	time: {
@@ -14,12 +14,7 @@ var eventSchema = new Schema({
 		type: ObjectId,
 		ref: 'Venue'
 	},
-	attenders: [new Schema({
-		attender: {
-			type: ObjectId,
-			ref: 'User'
-		}
-	})]
+	attenders: [new Schema({attender:{type:ObjectId, ref:'User'}})]
 });
 
 module.exports = db.model('Event', eventSchema);
