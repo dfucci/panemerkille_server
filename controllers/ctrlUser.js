@@ -115,7 +115,7 @@ exports.postUserCheckins = function(req, res) {
 	Event.findOne({
 		_id: req.params.event
 	}, function(err, event) {
-		if (err) res.send(500, err);
+		if (err) res.send(500, 'Error #001: '+err);
 		else if (event == null) res.send(404, 'Event not found');
 		else {
 			User.findOne({
@@ -128,20 +128,22 @@ exports.postUserCheckins = function(req, res) {
 							timestamp: new Date(),
 							event: req.params.event
 						});
-						event.attenders.push(user._id);
+						event.attenders.push({attender:user._id});
+						console.log(event.attenders);
 						user.save(function(err) {
 							if (!err) {
+								console.log('event:'+event);
 								event.save(function(err) {
-									if (err) res.send(500, err);
+									if (err) res.send(500, 'Error #002: ' +err);
 									else res.send('users/' + user._id);
 								})
 							} else {
-								res.send(500, err);
+								res.send(500, 'Error #003: '+err);
 							}
 						});
 					}
 				} else {
-					res.send(500, err);
+					res.send(500, 'Error #004: '+err);
 				}
 			});
 		}

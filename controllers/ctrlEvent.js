@@ -64,7 +64,7 @@ exports.getEvent = function(req, res) {
 	_id = req.params._id;
 	Event.findOne({
 		_id: _id
-	}).populate('venue').exec(function(err, doc) {
+	}).populate('venue').populate('attenders.attender', ['_id', 'name.firstname', 'name.surname', 'picture_url']).exec(function(err, doc) {
 		if (!err) {
 			res.send(doc);
 		} else res.send(404, req.url + " not found");
