@@ -111,23 +111,38 @@ exports.delUser = function(req, res) {
 
 exports.postUserCheckins = function(req, res) {
 	_id = req.params._id;
-	User.findOne({
-		_id: _id
-	}, function(err, user) {
-		if (!err) {
-			user.checkins.push({
-				timestamp: new Date(),
-				event: req.params.event
-			});
-			user.save(function(err) {
+	Event.findOne({
+		_id: req.params.event
+	}, function(err, event) {
+		if (err) res.send(500, err);
+		else if (event == null) res.send(404, 'Event not found');
+		else {
+			User.findOne({
+				_id: _id
+			}, function(err, user) {
 				if (!err) {
-					res.send('users/' + user._id);
+					if (user == null) res.send(404, 'User not found');
+					else {
+						user.checkins.push({
+							timestamp: new Date(),
+							event: req.params.event
+						});
+						event.attenders.push(user._id);
+						user.save(function(err) {
+							if (!err) {
+								event.save(function(err) {
+									if (err) res.send(500, err);
+									else res.send('users/' + user._id);
+								})
+							} else {
+								res.send(500, err);
+							}
+						});
+					}
 				} else {
-					res.send(err);
+					res.send(500, err);
 				}
 			});
-		} else {
-			res.send(404, req.url + 'not found');
 		}
 	});
 }
