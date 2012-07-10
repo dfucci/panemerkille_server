@@ -2,6 +2,7 @@
 _ = require('../libs/underscore.js');
 
 var User = require('../models/user.js');
+var Event = require('../models/event.js');
 var user_params = ['surname', 'firstname', 'birthdate', 'gender', 'picture_url', 'facebook_id', 'email', 'city'];
 UserController = function() {};
 
