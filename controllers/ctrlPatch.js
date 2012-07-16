@@ -2,6 +2,10 @@
 - aggiundere la risposta in POST nell'header 'Location' e codice 201
 - 
 */
+
+//Error codes: 2xx
+
+
 _ = require('../libs/underscore.js');
 var Patch = require('../models/patch.js');
 //var patchAttrs = ['firstname', 'surname', 'birthdate', 'gender', 'picture_url', 'facebook_id', 'email'];
@@ -10,9 +14,10 @@ PatchController = function() {};
 
 exports.getPatches = function(req, res) {
 	Patch.find(req.query, function(err, docs) {
-		if (!err) {
+		if (err)
+			res.send(500, 'Error #201: '+err);
+		else 
 			res.send(docs);
-		} else res.send(err);
 	});
 }
 
@@ -25,17 +30,20 @@ exports.postPatches = function(req, res) {
 	});
 
 	patch.save(function(err) {
-		if (!err) {
-			res.send('events/' + patch._id);
-		} else res.send(err);
+		if (err) 
+			res.send(500, 'Error #202: '+err);
+		else
+			res.send('/events/' + patch._id);
 	});
 }
 
 exports.delPatches = function(req, res) {
 	Patch.remove({}, function(err) {
-		if (!err) {
+		if (err) 
+			res.send(500, 'Error #203: '+err);
+		else
 			res.send(req.url);
-		} else res.send(err);
+
 	});
 }
 
@@ -45,9 +53,12 @@ exports.getPatch = function(req, res) {
 	Patch.findOne({
 		_id: _id
 	}, function(err, doc) {
-		if (!err) {
+		if (err) 
+			res.send(500, 'Error #204: '+err);
+		else if (doc == null)
+			res.send (404, "The requested patch has not been found");
+		else 
 			res.send(doc);
-		} else res.send(404, req.url + " not found");
 	});
 }
 
@@ -64,11 +75,9 @@ exports.putPatch = function(req, res) {
 		}, {upsert: true}, 
 		function(err) {
 			if (!err) {
-				console.log("patch updated");
 				res.send(req.url);
 			} else {
-				console.log("Error updating patch");
-				res.send(404, req.url + " not found");
+				res.send(500, 'Error #205: '+err);
 			}
 
 		});
@@ -84,77 +93,11 @@ exports.delPatch = function(req, res) {
 		_id: _id
 	}, function(err, doc) {
 		if (!err) {
-			res.send(req.url.substring(0, req.url.length - _id.length - 1));
-		} else res.send(404, req.url + " not found");
+			res.send('/patches/');
+		} else res.send(500, 'Error #206: '+err);
 	});
 }
 
-// exports.postPatchCheckins = function(req, res) {
-
-// 	var checkin = new Checkin({
-// 		event: req.params.event,
-// 		patch: req.params._id
-// 	});
-// 	patch.checkins.push(checkin);
-// 	patch.save(function(err) {
-// 		if (!err) {
-// 			checkin.save(function(err) {
-// 				if (!err) {
-// 					res.send('/patchs/' + patch._id);
-// 				} else {
-// 					res.send(err);
-// 				}
-// 			});
-// 		} else {
-// 			res.send(err);
-
-// 		}
-// 	});
-// }
-
-// exports.postPatchPatches = function(req, res) {
-// 	_id = req.params._id;
-// 	console.log("entrato" + _id);
-// 	Patch.findOne({
-// 		_id: _id
-// 	}, function(err, patch) {
-// 		if (!err) {
-// 			patch.patches.push({patch:req.params.patch, timestamp: new Date()});
-// 			patch.save(function(err) {
-// 				if (!err) {
-// 					//patch.save(function(err) {
-// 					res.send('patchs/' + patch._id);
-// 				} else {
-// 					res.send(err);
-
-// 				}
-// 			});
-// 		} else res.send(404, req.url + " not found");
-// 	});
-
-// }
-
-// exports.delPatchPatches = function(req, res) {
-// 	_id = req.params._id;
-// 	console.log("entrato" + _id);
-// 	Patch.findOne({
-// 		_id: _id
-// 	}, function(err, patch) {
-// 		if (!err) {
-// 			patch.patches=[];
-// 			patch.save(function(err) {
-// 				if (!err) {
-// 					//patch.save(function(err) {
-// 					res.send('/patchs/' + patch._id);
-// 				} else {
-// 					res.send(err);
-
-// 				}
-// 			});
-// 		} else res.send(404, req.url + " not found");
-// 	});
-
-// }
 
 
 
