@@ -223,11 +223,6 @@ exports.getUserFriends = function(req, res) {
 
 }
 
-function compare(a,b){
-	if (a.checkins[0].timestamp<b.checkins[0].timestamp) return -1;
-	if (a.checkins[0].timestamp>b.checkins[0].timestamp) return 1;
-	return 0;
-}
 
 //TODO: alert che scoppia
 exports.postUserFriends = function(req, res) {
@@ -283,7 +278,7 @@ exports.putUserPatch = function(req, res){
 	var query = {_id:user_id};
 	console.log('putUserPatch');
 	User.findOne({_id:user_id}, function(err, user){
-		if (err) res.send(500, 'Error #00x: '+err);
+		if (err) res.send(500, 'Error #020: '+err);
 		else {	
 		_.each(user.patches, function(patch){
 			console.log(patch);
@@ -295,13 +290,19 @@ exports.putUserPatch = function(req, res){
 			}
  		});
  		User.update({_id:user_id}, {patches:user.patches}, function(err, num){
- 			if(err) res.send(500,'Error #00x: '+err);
+ 			if(err) res.send(500,'Error #021: '+err);
  			else res.send('/users/' + user_id);
  		});
 		}
 	});
 }
 exports.UserController = UserController;
+
+function compare(a,b){
+	if (a.checkins[0].timestamp<b.checkins[0].timestamp) return -1;
+	if (a.checkins[0].timestamp>b.checkins[0].timestamp) return 1;
+	return 0;
+}
 
 function paramsOK(req) {
 	return _.all(user_params, function(param) { //returns true if all pass the condition
