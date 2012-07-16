@@ -231,7 +231,7 @@ function compare(a,b){
 
 //TODO: alert che scoppia
 exports.postUserFriends = function(req, res) {
-	_id = req.params._id;
+	var _id = req.params._id;
 	User.update({ // aggiorno l'utente corrente
 		_id: _id
 	}, {
@@ -277,7 +277,30 @@ exports.postUserFriends = function(req, res) {
 		}
 	});
 }
-
+exports.putUserPatch = function(req, res){
+	var user_id = req.params.u_id;
+	var patch_id = req.params.p_id;
+	var query = {_id:user_id};
+	console.log('putUserPatch');
+	User.findOne({_id:user_id}, function(err, user){
+		if (err) res.send(500, 'Error #00x: '+err);
+		else {	
+		_.each(user.patches, function(patch){
+			console.log(patch);
+			if (patch.id==patch_id) {
+				console.log('trovato');
+				console.log(req.params.claimed);
+				patch.claimed=JSON.parse(req.params.claimed); // è passata come stringa, ogni stringa non vuota è TRUE
+				console.log(patch.claimed);
+			}
+ 		});
+ 		User.update({_id:user_id}, {patches:user.patches}, function(err, num){
+ 			if(err) res.send(500,'Error #00x: '+err);
+ 			else res.send('/users/' + user_id);
+ 		});
+		}
+	});
+}
 exports.UserController = UserController;
 
 function paramsOK(req) {
