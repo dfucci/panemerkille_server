@@ -88,8 +88,6 @@ exports.delEvent = function(req, res) {
 	});
 }
 
-
-
 exports.EventController = EventController;
 
 function paramsOK(req) {
