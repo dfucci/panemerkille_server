@@ -1,4 +1,5 @@
 //TODO: aggiundere la risposta in POST nell'header 'Location' e codice 201
+//Error codes: 0xx
 _ = require('../libs/underscore.js');
 
 var User = require('../models/user.js');
@@ -9,13 +10,11 @@ UserController = function() {};
 //using populate to get the checkins and patches along with the user(s)
 exports.getUsers = function(req, res) {
 	var usr = createUserFromParams(req);
-	console.log(usr);
 	User.find(usr).exec(function(err, users) {
 		if (!err) {
-			console.log(users);
 			res.send(users);
 		} else {
-			res.send(err);
+			res.send(500, 'Error #005: '+err);
 		}
 	});
 }
@@ -38,7 +37,7 @@ exports.postUsers = function(req, res) {
 	user.save(function(err) {
 		if (!err) {
 			res.send(req.url + '/' + user._id);
-		} else res.send(err);
+		} else res.send(500, 'Error #006: '+err);
 	});
 }
 
@@ -46,7 +45,7 @@ exports.delUsers = function(req, res) {
 	User.remove({}, function(err) {
 		if (!err) {
 			res.send(req.url);
-		} else res.send(err);
+		} else res.send(500, 'Error #007: '+err);
 	});
 }
 
@@ -56,9 +55,12 @@ exports.getUser = function(req, res) {
 	User.findOne({
 		_id: _id
 	}).populate('patches.patch').populate('checkins.event').exec(function(err, doc) {
-		if (!err) {
+		if (err) 
+			res.send(500, 'Error #008: '+err);
+		else if (doc == null)
+			res.send(404, 'The requested user has not been found');
+		else
 			res.send(doc);
-		} else res.send(404, req.url + " not found");
 	});
 }
 
@@ -84,12 +86,9 @@ exports.putUser = function(req, res) {
 			upsert: true
 		}, function(err) {
 			if (!err) {
-				console.log("user updated");
 				res.send(req.url);
 			} else {
-				console.log(err);
-				console.log("Error updating user");
-				res.send(404, req.url + " not found");
+				res.send(500, 'Error #009: '+err);
 			}
 
 		});
@@ -105,8 +104,8 @@ exports.delUser = function(req, res) {
 		_id: _id
 	}, function(err, doc) {
 		if (!err) {
-			res.send(req.url.substring(0, req.url.length - _id.length - 1));
-		} else res.send(404, req.url + " not found");
+			res.send("/users/");
+		} else res.send(500, 'Error #010: '+err);
 	});
 }
 
@@ -166,11 +165,11 @@ exports.postUserPatches = function(req, res) {
 					//patch.save(function(err) {
 					res.send('users/' + user._id);
 				} else {
-					res.send(err);
+					res.send(500, 'Error #011: '+err);
 
 				}
 			});
-		} else res.send(404, req.url + " not found");
+		} else res.send(500, 'Error #012: '+err);
 	});
 
 }
@@ -187,11 +186,11 @@ exports.delUserPatches = function(req, res) {
 					//patch.save(function(err) {
 					res.send('/users/' + user._id);
 				} else {
-					res.send(err);
+					res.send(500, 'Error #013: '+err);
 
 				}
 			});
-		} else res.send(500, err);
+		} else res.send(500, 'Error #014: '+err);
 	});
 
 }
@@ -208,7 +207,7 @@ exports.getUserFriends = function(req, res) {
 			User.findOne({
 				_id: user.friends[i].friend
 			}).where('checkins').slice(-1).populate('checkins.event').exec(function(err, friend) {
-				if (err) res.send(500, err);
+				if (err) res.send(500, 'Error #015: '+err);
 				else {
 					if (friend.checkins.length>0) output.push(friend);
 					count++;
@@ -223,15 +222,10 @@ exports.getUserFriends = function(req, res) {
 
 }
 
-function compare(a,b){
-	if (a.checkins[0].timestamp<b.checkins[0].timestamp) return -1;
-	if (a.checkins[0].timestamp>b.checkins[0].timestamp) return 1;
-	return 0;
-}
 
 //TODO: alert che scoppia
 exports.postUserFriends = function(req, res) {
-	_id = req.params._id;
+	var _id = req.params._id;
 	User.update({ // aggiorno l'utente corrente
 		_id: _id
 	}, {
@@ -239,7 +233,7 @@ exports.postUserFriends = function(req, res) {
 			friends: 1
 		}
 	}, function(err, number) {
-		if (err) res.send('1' + err);
+		if (err) res.send(500, 'Error #016: '+err);
 		else {
 			console.log(number);
 			var friends = JSON.parse(req.params.friends); 
@@ -247,20 +241,20 @@ exports.postUserFriends = function(req, res) {
 			User.findOne({ // mi prendo l'utente corrente
 				_id: _id
 			}, function(err, user) {
-				if (err) res.send(500, '2' + err);
+				if (err) res.send(500, 'Error #017: '+err);
 				else {
 					var count = 0;
 					for (var i = 0; i < friends.length; i++) { // ciclo su gli amici dell'utente corrente
 						User.findOne({ 
 							facebook_id: friends[i].id
 						}, function(err, friend) {
-							if (err) res.send(500, '3' + err);
+							if (err) res.send(500, 'Error #018: '+err);
 							else {
 								user.friends.push({ // aggiungo all'array degli amici se trovo un amico
 									friend: friend._id
 								});
 								user.save(function(err) { // salvo l'utente corrente con il nuovo array di amici 
-									if (err) res.send('4' + err);
+									if (err) res.send(500, 'Error #019: '+err);
 									else {
 										count++;
 										if (count == friends.length) {
@@ -277,8 +271,46 @@ exports.postUserFriends = function(req, res) {
 		}
 	});
 }
-
+exports.putUserPatch = function(req, res) {
+	var user_id = req.params.u_id;
+	var patch_id = req.params.p_id;
+	if (!(req.params.claimed==='true' || req.params.claimed==='false')) res.send(400, "Error #021: Wrong parameter value"); //controlla che sia una stringa contenente un booleano
+	else {
+		var query = {
+			_id: user_id
+		};
+		User.findOne({
+			_id: user_id
+		}, function(err, user) {
+			if (err) res.send(500, 'Error #020: ' + err);
+			else {
+				var found = false; // necessario controllare se la patch esiste 
+				_.each(user.patches, function(patch) {
+					if (patch.id == patch_id) {
+						patch.claimed = JSON.parse(req.params.claimed); // è passata come stringa, ogni stringa non vuota è TRUE
+						found = true;
+					}
+				});
+				if (!found) res.send(404, 'Error #022: Cannot find requested patch');
+				User.update({
+					_id: user_id
+				}, {
+					patches: user.patches
+				}, function(err, num) {
+					if (err) res.send(500, 'Error #023: ' + err);
+					else res.send('/users/' + user_id);
+				});
+			}
+		});
+	}
+}
 exports.UserController = UserController;
+
+function compare(a,b){
+	if (a.checkins[0].timestamp<b.checkins[0].timestamp) return -1;
+	if (a.checkins[0].timestamp>b.checkins[0].timestamp) return 1;
+	return 0;
+}
 
 function paramsOK(req) {
 	return _.all(user_params, function(param) { //returns true if all pass the condition
