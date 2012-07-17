@@ -1,4 +1,8 @@
 //TODO: aggiundere la risposta in POST nell'header 'Location' e codice 201
+
+//Error codes: 3xx
+
+
 _ = require('../libs/underscore.js');
 var Event = require('../models/event.js');
 var Venue = require('../models/venue.js');
@@ -18,9 +22,9 @@ exports.getEvents = function(req, res) {
 	}
 	Event.find({$or:[{'time.end':{$gte:now}, 'time.start':{$lte:now}}, {'time.start':{$gte:now, $lte:oneweek}}]}).sort('time.start', 1).populate('venue').exec(function(err, events){
 		if (err) {
-			res.send(500, err);
+			res.send(500, 'Error #301: '+err);
 		}else{
-			res.send(200, events);
+			res.send(events);
 		}
 	});
 }
@@ -42,18 +46,18 @@ exports.postEvents = function(req, res) {
 		function(err, venue){
 			if (!err) {
 				if (venue==null) {
-					res.send(500, 'The specified venue does not seem to exist');
+					res.send(404, 'The specified venue has not been found');
 				}else{
 					event.save(function(err){
 						if (err) {
-							res.send(err);
+							res.send(500, 'Error #302: '+err);
 						} else{
 							res.send(req.url+'/'+event._id);
 						}
 					});
 				}
 			}else{
-				res.send(err);
+				res.send(500, 'Error #303: '+err);
 			}
 		});
 	}
@@ -65,9 +69,13 @@ exports.getEvent = function(req, res) {
 	Event.findOne({
 		_id: _id
 	}).populate('venue').populate('attenders.attender', ['_id', 'name.firstname', 'name.surname', 'picture_url']).exec(function(err, doc) {
-		if (!err) {
+		if (err) 
+			res.send(500, 'Error #304: '+err);
+		else if (venue == null)
+			res.send(404, "The requested event has not been found");
+		else
 			res.send(doc);
-		} else res.send(404, req.url + " not found");
+
 	});
 }
 
@@ -83,12 +91,10 @@ exports.delEvent = function(req, res) {
 		_id: _id
 	}, function(err, doc) {
 		if (!err) {
-			res.send(req.url.substring(0, req.url.length - _id.length - 1));
-		} else res.send(404, req.url + " not found");
+			res.send('/events/');
+		} else res.send(500, 'Error #305: '+err);
 	});
 }
-
-
 
 exports.EventController = EventController;
 
