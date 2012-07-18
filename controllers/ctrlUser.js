@@ -286,7 +286,7 @@ exports.putUserPatch = function(req, res) {
 			else {
 				var found = false; // necessario controllare se la patch esiste 
 				_.each(user.patches, function(patch) {
-					if (patch.id == patch_id) {
+					if (patch.patch == patch_id) {
 						patch.claimed = JSON.parse(req.params.claimed); // è passata come stringa, ogni stringa non vuota è TRUE
 						found = true;
 					}
