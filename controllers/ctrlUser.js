@@ -271,7 +271,7 @@ exports.postUserFriends = function(req, res) {
 		}
 	});
 }
-exports.putUserPatch = function(req, res) {
+exports.postUserPatch = function(req, res) {
 	var user_id = req.params.u_id;
 	var patch_id = req.params.p_id;
 	if (!(req.params.claimed==='true' || req.params.claimed==='false')) res.send(400, "Error #021: Wrong parameter value"); //controlla che sia una stringa contenente un booleano
