@@ -3,3 +3,4 @@ panemerkille_server.sublime-workspace
 .DS_Store
 npm-debug.log
 dump/
+*.js~
