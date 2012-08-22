@@ -38,7 +38,6 @@ server.post('/users/:_id/friends', UserController.postUserFriends);
 // server.post('/users/:id/friends', test);
 // server.del('/users/:id/friends', test);
 
-
 // server.get('/users/:id/patches', test);  user.patches
 // server.put('/users/:id/patches', test); //TODO
 server.post('/users/:_id/patches', UserController.postUserPatches);
