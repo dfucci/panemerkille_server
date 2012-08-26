@@ -26,14 +26,15 @@ exports.postPatches = function(req, res) {
 	var patch = new Patch({
 		name:req.params.name,
 		image_url:req.params.image_url,
-		description:req.params.description
+		description:req.params.description,
+		unlock_function:req.params.unlock_function
 	});
 
 	patch.save(function(err) {
 		if (err) 
 			res.send(500, 'Error #202: '+err);
 		else
-			res.send('/events/' + patch._id);
+			res.send('/patches/' + patch._id);
 	});
 }
 
@@ -63,14 +64,15 @@ exports.getPatch = function(req, res) {
 }
 
 exports.putPatch = function(req, res) {
-	var myparams = ['name', 'description', 'image_url'];
+	var myparams = ['name', 'description', 'image_url', 'unlock_function'];
 	if (checkParams(myparams, req)) {
 		Patch.update({_id: req.params._id}, 
 			{
 			$set: {
 				name:req.params.name,
 				description:req.params.description,
-				image_url:req.params.image_url
+				image_url:req.params.image_url,
+				unlock_function:req.params.unlock_function
 			}
 		}, {upsert: true}, 
 		function(err) {
