@@ -20,7 +20,8 @@ var userSchema = new Schema({
 		patches: [new Schema({
 			timestamp:Date,
 			patch: {type: ObjectId, ref: 'Patch'},
-			claimed: {type: Boolean, default:false}
+			claimed: {type: Boolean, default:false},
+			seen: {type: Boolean, default:false}
 		})],
 		friends: [new Schema({
 			friend: {type:ObjectId, ref:'User'}
