@@ -60,7 +60,14 @@ exports.getUser = function(req, res) {
 	}).populate('patches.patch').populate('checkins.event').exec(function(err, doc) {
 		if (err) res.send(500, 'Error #008: ' + err);
 		else if (doc == null) res.send(404, 'The requested user has not been found');
-		else res.send(doc);
+		else {
+			for (var i = 0; i < doc.patches.length; i++) {
+				if(!doc.patches[i].seen) doc.patches[i].seen=true;
+			}
+			doc.save(function{
+				res.send(doc);
+			});
+		}
 	});
 }
 
