@@ -62,13 +62,11 @@ exports.getUser = function(req, res) {
 		if (err) res.send(500, 'Error #008: ' + err);
 		else if (doc == null) res.send(404, 'The requested user has not been found');
 		else {
+			res.send(doc);
 			for (var i = 0; i < doc.patches.length; i++) {
 				if(!doc.patches[i].seen) doc.patches[i].seen=true;
 			}
-			doc.save(function(err){
-				if(!err) res.send(doc);
-				else res.send(500, 'Error #024:' + err);
-			});
+			doc.save();
 		}
 	});
 }
