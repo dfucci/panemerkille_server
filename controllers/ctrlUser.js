@@ -1,5 +1,6 @@
 //TODO: aggiundere la risposta in POST nell'header 'Location' e codice 201
 //Error codes: 0xx
+//Last err: 024
 _ = require('../libs/underscore.js');
 
 var User = require('../models/user.js');
@@ -64,8 +65,9 @@ exports.getUser = function(req, res) {
 			for (var i = 0; i < doc.patches.length; i++) {
 				if(!doc.patches[i].seen) doc.patches[i].seen=true;
 			}
-			doc.save(function{
-				res.send(doc);
+			doc.save(function(err){
+				if(!err) res.send(doc);
+				else res.send(500, 'Error #024:' + err);
 			});
 		}
 	});
