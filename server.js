@@ -1,10 +1,9 @@
 var restify = require('restify');
 var db = require('mongoose');
-var mongoURL = process.env.MONGOLAB_URI || "mongodb://localhost/heroku_app3697279";
-console.log(mongoURL);
+var config = require('./config');
+var mongoURL = config.mongo.url;
 db.connect(mongoURL);
-var port = process.env.PORT || 7777;
-console.log(port);
+var port = config.restify.port;
 var UserController=require("./controllers/ctrlUser.js");
 var VenueController=require("./controllers/ctrlVenue.js");
 var PatchController=require("./controllers/ctrlPatch.js");

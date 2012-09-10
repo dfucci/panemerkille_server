@@ -312,21 +312,38 @@ exports.patchUnlocker = {
 			}
 		});
 	},
-	panemerkilleStart: function(user, patch_id) {
-		console.log('panemerkilleStart');
-		if (user.checkins.length > 0) {
-			user.patches.push({
-				patch: patch_id,
-				timestamp: new Date()
-			});
+panemerkilleStart: function (user, patch_id) {
+	    if (user.checkins.length > 0) {
+	        Venue.find({
+	            featured: true
+	        }, '_id', function (err, venues) {
+	            for (var i = 0; i < user.checkins.length; i++) {
+	            	var found=false;
+	                var idStr = user.checkins[i].event.venue.toString();
+	                console.log(idStr);
+	                console.log(venues);
+	                for (var j = 0; j < venues.length; j++) {
+	                    if (venues[j]._id.toString() == idStr) {
+	                    	found=true;
+	                        console.log('exists');
+	                        user.patches.push({
+	                            patch: patch_id,
+	                            timestamp: new Date()
+	                        });
 
-			user.save(function(err) {
-				if (err) console.log(err);
-				else {
-					console.log('utente:', user._id);
-					console.log('patch: PaneMerkille Starter');
-				}
-			});
-		}
-	},
+	                        user.save(function (err) {
+	                            if (err) console.log(err);
+	                            else {
+	                                console.log('utente:', user._id);
+	                                console.log('patch: PaneMerkille Starter');
+	                            }
+	                        });
+	                    }	               
+	                }
+	             if(found){break;}
+	            }
+	        });
+	    }
+
+	}
 };
