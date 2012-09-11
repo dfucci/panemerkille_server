@@ -92,6 +92,11 @@ server.get('/events/:_id', EventController.getEvent);
 //server.post('/events/:_id', test);
 server.del('/events/:_id', EventController.delEvent); 
 
+//Blitz load testing
+server.get('/mu-d2dcad53-a36ef66e-9141865f-4ca9fa0f', function(req,res){
+	res.send('42');
+});
+
 server.on('NotFound', function(req, res) {
   res.send(404, req.url + ' was not found');
 });
