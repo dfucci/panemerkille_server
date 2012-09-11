@@ -97,6 +97,10 @@ server.get('/mu-d2dcad53-a36ef66e-9141865f-4ca9fa0f.txt', function(req,res){
 	res.send('42');
 });
 
+server.get('/mu-d2dcad53-a36ef66e-9141865f-4ca9fa0f', function(req,res){
+	res.send('42');
+});
+
 server.on('NotFound', function(req, res) {
   res.send(404, req.url + ' was not found');
 });
