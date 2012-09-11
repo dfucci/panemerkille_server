@@ -94,7 +94,7 @@ server.del('/events/:_id', EventController.delEvent);
 
 //Blitz load testing
 server.get('/mu-d2dcad53-a36ef66e-9141865f-4ca9fa0f.txt', function(req,res){
-	res.send(200,"42");
+	res.send(200,42);
 });
 
 server.get('/mu-d2dcad53-a36ef66e-9141865f-4ca9fa0f', function(req,res){
