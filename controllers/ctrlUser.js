@@ -35,7 +35,8 @@ exports.postUsers = function(req, res) {
 		picture_url: req.params.picture_url,
 		facebook_id: req.params.facebook_id,
 		email: req.params.email,
-		city: req.params.city
+		city: req.params.city,
+		registered: new Date()
 	});
 
 	user.save(function(err) {
