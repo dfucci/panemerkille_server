@@ -13,6 +13,8 @@ var userSchema = new Schema({
 		picture_url:String,
 		facebook_id:String,
 		email:String,
+		registered:Date,
+		last_access:Date,
 		checkins: [new Schema({
 			timestamp:Date,
 			event:{type: ObjectId, ref: 'Event'}
