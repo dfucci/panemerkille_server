@@ -101,7 +101,7 @@ exports.putUser = function(req, res) {
 
 		});
 	} else {
-		console.log('params not ok');
+		
 		res.send(400, 'Required parameter missing');
 	}
 }
@@ -138,7 +138,7 @@ exports.postUserCheckins = function(req, res) {
 						event.attenders.push({
 							attender: user._id
 						});
-						// console.log(event.attenders);
+						
 						user.save(function(err) {
 							if (!err) {
 								Patch.find({}, function(err, patches) {
@@ -147,13 +147,13 @@ exports.postUserCheckins = function(req, res) {
 										for (var i = 0; i < patches.length; i++) {
 											filterPatch(patches[i], diff);
 										}
-										console.log(diff);
+										
 										User.findOne({
 											_id: user._id
 										}).populate('checkins.event').exec(function(err, user) {
 											if (err) {} else {
 												_.each(diff, function(p) {
-													console.log('user checkins', user.checkins.length);
+													
 													patchUnlocker[p.unlock_function](user, p._id);
 												});
 
@@ -168,7 +168,7 @@ exports.postUserCheckins = function(req, res) {
 									for (var i = 0; i < user.patches.length; i++) {
 										if (patch._id.equals(user.patches[i].patch)) {
 											found = true;
-											console.log('found!');
+											
 										}
 									}
 									if (!found) {
@@ -245,7 +245,6 @@ exports.getUserFriends = function(req, res) {
 		_id: _id
 	}, function(err, user) {
 		for (var i = 0; i < user.friends.length; i++) {
-			console.log(user.friends[i].friend);
 			User.findOne({
 				_id: user.friends[i].friend
 			}).where('checkins').slice(-1).populate('checkins.event').exec(function(err, friend) {
@@ -283,7 +282,7 @@ exports.postUserFriends = function(req, res) {
 			}, function(err, user) {
 				if (err) console.log('Error #017: ' + err);
 				else {
-					var count = 0;
+					var count = 1;
 					for (var i = 0; i < friends.length; i++) { // ciclo su gli amici dell'utente corrente
 						User.findOne({
 							facebook_id: friends[i].id
