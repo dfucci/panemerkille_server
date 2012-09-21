@@ -1,4 +1,4 @@
-//TODO: aggiundere la risposta in POST nell'header 'Location' e codice 201
+﻿//TODO: aggiundere la risposta in POST nell'header 'Location' e codice 201
 //Error codes: 0xx
 //Last err: 024
 _ = require('../libs/underscore.js');
@@ -298,6 +298,7 @@ exports.postUserFriends = function(req, res) {
 									else {
 										count++;
 										if (count == friends.length) {
+											res.send(200, '/user/'+_id);
 											console.log('user: ' + _id + 'friends updated');
 										}
 									}
