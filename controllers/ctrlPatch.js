@@ -84,7 +84,7 @@ exports.putPatch = function(req, res) {
 
 		});
 	} else {
-		console.log('params not ok');
+		
 		res.send(400, 'Required parameter missing');
 	}
 }
@@ -106,7 +106,7 @@ exports.delPatch = function(req, res) {
 exports.PatchController = PatchController;
 
 function checkParams(arr, req) {
-	console.log("Checking");
+	
 	// Make sure each param listed in arr is present in req.query
 	var missing_params = [];
 	for (var i = 0; i < arr.length; i++) {
@@ -115,11 +115,10 @@ function checkParams(arr, req) {
 		}
 	}
 	if (missing_params.length == 0) {
-		console.log("No missing param");
+		
 		return true;
 	} else {
-		console.log("Missing params");
-		console.log(missing_params[0]);
+		
 		return false;
 	}
 }

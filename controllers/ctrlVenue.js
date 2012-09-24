@@ -6,7 +6,7 @@ var Event = require('../models/event.js').Event;
 
 
 
-console.log(Event);
+
 
 VenueController = function(){};
 
