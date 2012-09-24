@@ -244,19 +244,23 @@ exports.getUserFriends = function(req, res) {
 	User.findOne({
 		_id: _id
 	}, function(err, user) {
-		for (var i = 0; i < user.friends.length; i++) {
-			User.findOne({
-				_id: user.friends[i].friend
-			}).where('checkins').slice(-1).populate('checkins.event').exec(function(err, friend) {
-				if (err) res.send(500, 'Error #015: ' + err);
-				else {
-					if (friend.checkins.length > 0) output.push(friend);
-					count++;
-					if (count == user.friends.length) {
-						res.send(output.sort(compare).reverse());
+		if (user.friends.length == 0)
+			res.send(output);
+		else {
+			for (var i = 0; i < user.friends.length; i++) {
+				User.findOne({
+					_id: user.friends[i].friend
+				}).where('checkins').slice(-1).populate('checkins.event').exec(function(err, friend) {
+					if (err) res.send(500, 'Error #015: ' + err);
+					else {
+						if (friend.checkins.length > 0) output.push(friend);
+						count++;
+						if (count == user.friends.length) {
+							res.send(output.sort(compare).reverse());
+						}
 					}
-				}
-			});
+				});
+			}
 		}
 
 	});
