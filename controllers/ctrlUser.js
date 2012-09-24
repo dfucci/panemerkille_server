@@ -42,6 +42,7 @@ exports.postUsers = function(req, res) {
 	user.save(function(err) {
 		if (!err) {
 			res.send(req.url + '/' + user._id);
+			console.log('Event: new user");
 		} else res.send(500, 'Error #006: ' + err);
 	});
 }
@@ -141,6 +142,7 @@ exports.postUserCheckins = function(req, res) {
 						
 						user.save(function(err) {
 							if (!err) {
+								console.log('Event: Checkin");
 								Patch.find({}, function(err, patches) {
 									var diff = new Array();
 									if (err) {} else {
