@@ -1,7 +1,7 @@
 var Venue = require('../models/venue.js');
 exports.patchUnlocker = {
 	tivoliRookie: function(user, patch_id) {
-		console.log('tivoliRookie');
+		
 		Venue.findOne({
 			name: 'Tivoli'
 		}, function(err, venue) {
@@ -22,13 +22,7 @@ exports.patchUnlocker = {
 					});
 					user.save(function(err) {
 						if (err) console.log(err);
-						else {
-							console.log('utente:', user._id);
-							console.log('patch: Tivoli Rookie');
-						}
 					});
-				} else{
-					console.log('Tivoli Rookie', count);
 				}
 			}
 		});
@@ -37,7 +31,6 @@ exports.patchUnlocker = {
 
 
 	tivoliFan: function(user, patch_id) {
-		console.log('tivoliFan');
 		Venue.findOne({
 			name: 'Tivoli'
 		}, function(err, venue) {
@@ -58,14 +51,9 @@ exports.patchUnlocker = {
 					});
 					user.save(function(err) {
 						if (err) console.log(err);
-						else {
-							console.log('utente:', user._id);
-							console.log('patch: Tivoli Fan');
-						}
+						
 					});
-				} else{
-					console.log('Tivoli Fan', count);
-				}
+				} 
 			}
 		});
 
@@ -73,7 +61,7 @@ exports.patchUnlocker = {
 	},
 
 	tivoliPro: function(user, patch_id) {
-		console.log('tivoliPro');
+		
 		Venue.findOne({
 			name: 'Tivoli'
 		}, function(err, venue) {
@@ -94,22 +82,15 @@ exports.patchUnlocker = {
 					});
 					user.save(function(err) {
 						if (err) console.log(err);
-						else {
-							console.log('utente:', user._id);
-							console.log('patch: Tivoli Pro');
-						}
 					});
-				} else{
-					console.log('Tivoli Pro', count);
-				}
+				} 
 			}
 		});
 	},
 
 	ngoRookie: function(user, patch_id) {
 
-		console.log('inside function', user.checkins.length);
-		console.log('ngoRookie');
+		
 		Venue.findOne({
 			name: 'Never Grow Old'
 		}, function(err, venue) {
@@ -130,20 +111,15 @@ exports.patchUnlocker = {
 					});
 					user.save(function(err) {
 						if (err) console.log(err);
-						else {
-							console.log('utente:', user._id);
-							console.log('patch: NGO Rookie');
-						}
+					
 					});
-				}else{
-					console.log('NGO Rookie', count);
 				}
 			}
 		});
 	},
 
 	ngoFan: function(user, patch_id) {
-		console.log('ngoFan');
+		
 		Venue.findOne({
 			name: 'Never Grow Old'
 		}, function(err, venue) {
@@ -164,20 +140,14 @@ exports.patchUnlocker = {
 					});
 					user.save(function(err) {
 						if (err) console.log(err);
-						else {
-							console.log('utente:', user._id);
-							console.log('patch: NGO Fan');
-						}
+						
 					});
-				} else{
-					console.log('NGO Fan', count);
-				}
+				} 
 			}
 		});
 	},
 
 	ngoPro: function(user, patch_id) {
-		console.log('ngoPro');
 		Venue.findOne({
 			name: 'Never Grow Old'
 		}, function(err, venue) {
@@ -198,21 +168,16 @@ exports.patchUnlocker = {
 					});
 					user.save(function(err) {
 						if (err) console.log(err);
-						else {
-							console.log('utente:', user._id);
-							console.log('patch: NGO Fan');
-						}
+						
 					});
-				} else{
-					console.log('NGO Pro', count);
-				}
+				} 
 			}
 		});
 
 	},
 
 	apolloRookie: function(user, patch_id) {
-		console.log('apolloRookie');
+		
 		Venue.findOne({
 			name: 'Apollo Live Club'
 		}, function(err, venue) {
@@ -233,19 +198,13 @@ exports.patchUnlocker = {
 					});
 					user.save(function(err) {
 						if (err) console.log(err);
-						else {
-							console.log('utente:', user._id);
-							console.log('patch: Apollo Rookie');
-						}
+						
 					});
-				} else{
-					console.log('Apollo Rookie', count);
-				}
+				} 
 			}
 		});
 	},
 	apolloFan: function(user, patch_id) {
-		console.log('apolloFan');
 		Venue.findOne({
 			name: 'Apollo Live Club'
 		}, function(err, venue) {
@@ -266,21 +225,16 @@ exports.patchUnlocker = {
 					});
 					user.save(function(err) {
 						if (err) console.log(err);
-						else {
-							console.log('utente:', user._id);
-							console.log('patch: Apollo Fan');
-						}
+						
 					});
-				} else{
-					console.log('Apollo Fan', count);
-				}
+				} 
 			}
 		});
 
 	},
 
 	apolloPro: function(user, patch_id) {
-		console.log('apolloPro');
+		
 		Venue.findOne({
 			name: 'Apollo Live Club'
 		}, function(err, venue) {
@@ -301,18 +255,13 @@ exports.patchUnlocker = {
 					});
 					user.save(function(err) {
 						if (err) console.log(err);
-						else {
-							console.log('utente:', user._id);
-							console.log('patch: Apollo Pro');
-						}
+						
 					});
-				} else{
-					console.log('Apollo Pro', count);
 				}
 			}
 		});
 	},
-panemerkilleStart: function (user, patch_id) {
+	panemerkilleStart: function (user, patch_id) {
 	    if (user.checkins.length > 0) {
 	        Venue.find({
 	            featured: true
@@ -320,12 +269,11 @@ panemerkilleStart: function (user, patch_id) {
 	            for (var i = 0; i < user.checkins.length; i++) {
 	            	var found=false;
 	                var idStr = user.checkins[i].event.venue.toString();
-	                console.log(idStr);
-	                console.log(venues);
+	                
 	                for (var j = 0; j < venues.length; j++) {
 	                    if (venues[j]._id.toString() == idStr) {
 	                    	found=true;
-	                        console.log('exists');
+	                        
 	                        user.patches.push({
 	                            patch: patch_id,
 	                            timestamp: new Date()
@@ -333,10 +281,7 @@ panemerkilleStart: function (user, patch_id) {
 
 	                        user.save(function (err) {
 	                            if (err) console.log(err);
-	                            else {
-	                                console.log('utente:', user._id);
-	                                console.log('patch: PaneMerkille Starter');
-	                            }
+	                            
 	                        });
 	                    }	               
 	                }
