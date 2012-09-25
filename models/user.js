@@ -30,4 +30,6 @@ var userSchema = new Schema({
 		})]
 });
 
+userSchema.set('versionKey', false);
+
 module.exports = db.model('User', userSchema);
