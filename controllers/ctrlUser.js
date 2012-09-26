@@ -294,6 +294,7 @@ exports.postUserFriends = function(req, res) {
 							facebook_id: friends[i].id
 						}, function(err, friend) {
 							if (err) console.log('Error #018: ' + err);
+							else if (friend == null) console.log('Error #018b: Friend not found');
 							else {
 								user.friends.push({ // aggiungo all'array degli amici se trovo un amico
 									friend: friend._id
