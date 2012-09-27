@@ -2,7 +2,7 @@
 
 //Error codes: 3xx
 
-
+moment = require('moment');
 _ = require('../libs/underscore.js');
 var Event = require('../models/event.js');
 var Venue = require('../models/venue.js');
@@ -20,10 +20,22 @@ exports.getEvents = function(req, res) {
 		oneweek = new Date();
 		oneweek.setDate(oneweek.getDate() + 7);
 	}
-	Event.find({$or:[{'time.end':{$gte:now}, 'time.start':{$lte:now}}, {'time.start':{$gte:now, $lte:oneweek}}]}).sort('time.start featured').populate('venue').exec(function(err, events){
+	Event.find({$or:[{'time.end':{$gte:now}, 'time.start':{$lte:now}}, {'time.start':{$gte:now, $lte:oneweek}}]}).sort('time.start').populate('venue').exec(function(err, events){
+		
 		if (err) {
 			res.send(500, 'Error #301: '+err);
 		}else{
+			events = _.sortBy(events, function(event){
+				var pos = 0;
+				var partyDay = moment(event.time.start);
+				var today = moment();
+				pos = partyDay.diff(today, 'days')*2;
+				if(!event.venue.featured){
+					pos+=1;
+				}
+				return pos;
+
+			});
 			res.send(events);
 		}
 	});
