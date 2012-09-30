@@ -11,6 +11,8 @@ var Event = require('../models/event.js').Event;
 VenueController = function(){};
 
 exports.getVenues =function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	Venue.find({}, function (err, docs) {
 			
 			if (err)
@@ -23,7 +25,9 @@ exports.getVenues =function(req, res) {
 
 
 exports.postVenues =function(req, res) {
-var venue = new Venue({
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
+	var venue = new Venue({
 		lat:req.body.lat,
 		lon:req.body.lon,
 		city:req.body.city,
@@ -44,6 +48,8 @@ var venue = new Venue({
 
 
 exports.delVenues=function (req,res) {
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	Venue.remove({}, function  (err) {
 		if(err)
 			res.send(500, 'Error #103: '+err);
@@ -55,6 +61,8 @@ exports.delVenues=function (req,res) {
 
 
 exports.getVenue = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	_id=req.params._id;
 	Venue.findOne({_id:_id}, function (err, doc) {
 		if(err)
@@ -68,6 +76,8 @@ exports.getVenue = function(req, res) {
 }
 //TODO: check 
 exports.putVenue=function (req, res) {
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
  	_id=req.params._id;
 	Venue.update({_id:_id}, {$set:{
 		lat:req.body.lat,
@@ -90,6 +100,8 @@ exports.putVenue=function (req, res) {
 }
 
 exports.delVenue=function (req, res) {
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	_id=req.params._id;
 	Venue.remove({_id:_id}, function (err, doc) {
 		if (err)
