@@ -13,6 +13,8 @@ UserController = function() {};
 
 //using populate to get the checkins and patches along with the user(s)
 exports.getUsers = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	var usr = createUserFromParams(req);
 	User.find(usr).exec(function(err, users) {
 		if (!err) {
@@ -24,6 +26,8 @@ exports.getUsers = function(req, res) {
 }
 
 exports.postUsers = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	var name = {
 		firstname: req.params.firstname,
 		surname: req.params.surname
@@ -48,6 +52,8 @@ exports.postUsers = function(req, res) {
 }
 
 exports.delUsers = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	User.remove({}, function(err) {
 		if (!err) {
 			res.send(req.url);
@@ -56,7 +62,10 @@ exports.delUsers = function(req, res) {
 }
 
 
+
 exports.getUser = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	_id = req.params._id;
 	User.findOne({
 		_id: _id
@@ -74,6 +83,8 @@ exports.getUser = function(req, res) {
 }
 
 exports.putUser = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	if (paramsOK(req)) {
 		var name = {
 			firstname: req.params.firstname,
@@ -108,6 +119,8 @@ exports.putUser = function(req, res) {
 }
 
 exports.delUser = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	_id = req.params._id;
 	User.remove({
 		_id: _id
@@ -118,7 +131,10 @@ exports.delUser = function(req, res) {
 	});
 }
 
+
 exports.postUserCheckins = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	_id = req.params._id;
 	Event.findOne({
 		_id: req.params.event
@@ -194,6 +210,8 @@ exports.postUserCheckins = function(req, res) {
 	});
 }
 exports.postUserPatches = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	_id = req.params._id;
 	User.findOne({
 		_id: _id
@@ -219,6 +237,8 @@ exports.postUserPatches = function(req, res) {
 }
 
 exports.delUserPatches = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	_id = req.params._id;
 	User.findOne({
 		_id: _id
@@ -240,6 +260,8 @@ exports.delUserPatches = function(req, res) {
 }
 
 exports.getUserFriends = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	var _id = req.params._id;
 	var count = 0;
 	var output = new Array();
@@ -272,6 +294,8 @@ exports.getUserFriends = function(req, res) {
 
 //TODO: alert che scoppia
 exports.postUserFriends = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	var _id = req.params._id;
 	User.update({ // aggiorno l'utente corrente
 		_id: _id
@@ -319,6 +343,8 @@ exports.postUserFriends = function(req, res) {
 	});
 }
 exports.postUserPatch = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	var user_id = req.params.u_id;
 	var patch_id = req.params.p_id;
 	if (!(req.params.claimed === 'true' || req.params.claimed === 'false')) res.send(400, "Error #021: Wrong parameter value"); //controlla che sia una stringa contenente un booleano
