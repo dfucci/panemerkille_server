@@ -11,6 +11,8 @@ EventController = function() {};
 
 
 exports.getEvents = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	var now;
 	var oneweek;
 	if (req.params.start == undefined) {
@@ -30,6 +32,8 @@ exports.getEvents = function(req, res) {
 }
 
 exports.postEvents = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	var time = {
 		start: req.params.start,
 		end: req.params.end
@@ -65,6 +69,8 @@ exports.postEvents = function(req, res) {
 
 
 exports.getEvent = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	_id = req.params._id;
 	Event.findOne({
 		_id: _id
@@ -81,11 +87,15 @@ exports.getEvent = function(req, res) {
 
 //TODO:tutta da fare
 exports.putEvent = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
 }
 
 
 exports.delEvent = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	_id = req.params._id;
 	Event.remove({
 		_id: _id
