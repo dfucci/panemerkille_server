@@ -292,7 +292,6 @@ exports.getUserFriends = function(req, res) {
 }
 
 
-//TODO: alert che scoppia
 exports.postUserFriends = function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*"); 
   	res.header("Access-Control-Allow-Headers", "X-Requested-With");
@@ -313,28 +312,33 @@ exports.postUserFriends = function(req, res) {
 				if (err) console.log('Error #017: ' + err);
 				else {
 					var count = 1;
-					for (var i = 0; i < friends.length; i++) { // ciclo su gli amici dell'utente corrente
-						User.findOne({
-							facebook_id: friends[i].id
-						}, function(err, friend) {
-							if (err) console.log('Error #018: ' + err);
-							else if (friend == null) console.log('Error #018b: Friend not found');
-							else {
-								user.friends.push({ // aggiungo all'array degli amici se trovo un amico
-									friend: friend._id
-								});
-								user.save(function(err) { // salvo l'utente corrente con il nuovo array di amici 
-									if (err) console.log('Error #019: ' + err);
-									else {
-										count++;
-										if (count == friends.length) {
-											res.send(200, '/user/'+_id);
-											console.log('user: ' + _id + 'friends updated');
+					if (friends.length == 0) {
+						res.send(200, '/user/'+_id);
+						console.log('user: ' + _id + 'friends empty');
+					} else {
+						for (var i = 0; i < friends.length; i++) { // ciclo su gli amici dell'utente corrente
+							User.findOne({
+								facebook_id: friends[i].id
+							}, function(err, friend) {
+								if (err) console.log('Error #018: ' + err);
+								else if (friend == null) console.log('Error #018b: Friend not found');
+								else {
+									user.friends.push({ // aggiungo all'array degli amici se trovo un amico
+										friend: friend._id
+									});
+									user.save(function(err) { // salvo l'utente corrente con il nuovo array di amici 
+										if (err) console.log('Error #019: ' + err);
+										else {
+											count++;
+											if (count == friends.length) {
+												res.send(200, '/user/'+_id);
+												console.log('user: ' + _id + 'friends updated');
+											}
 										}
-									}
-								});
-							}
-						});
+									});
+								}
+							});
+						}
 					}
 				}
 			});
