@@ -311,7 +311,7 @@ exports.postUserFriends = function(req, res) {
 			}, function(err, user) {
 				if (err) console.log('Error #017: ' + err);
 				else {
-					var count = 1;
+					
 					if (friends.length == 0) {
 						res.send(200, '/user/'+_id);
 						console.log('user: ' + _id + 'friends empty');
@@ -328,17 +328,17 @@ exports.postUserFriends = function(req, res) {
 									});
 									user.save(function(err) { // salvo l'utente corrente con il nuovo array di amici 
 										if (err) console.log('Error #019: ' + err);
-										else {
-											count++;
-											if (count == friends.length) {
-												res.send(200, '/user/'+_id);
-												console.log('user: ' + _id + 'friends updated');
-											}
-										}
+										
 									});
 								}
 							});
+							if (i == friends.length -1) {
+								res.send(200, '/user/'+_id);
+								console.log('user: ' + _id + 'friends updated');
+							}
 						}
+
+					
 					}
 				}
 			});
