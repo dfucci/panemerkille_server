@@ -307,6 +307,7 @@ exports.postUserFriends = function(req, res) {
 		else {
 			console.log(req.params.friends);
 			var friends = JSON.parse(req.params.friends);
+			console.log(friends);
 			User.findOne({ // mi prendo l'utente corrente
 				_id: _id
 			}, function(err, user) {
