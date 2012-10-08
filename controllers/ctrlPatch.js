@@ -13,6 +13,8 @@ PatchController = function() {};
 
 
 exports.getPatches = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	Patch.find(req.query, function(err, docs) {
 		if (err)
 			res.send(500, 'Error #201: '+err);
@@ -22,6 +24,8 @@ exports.getPatches = function(req, res) {
 }
 
 exports.postPatches = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	
 	var patch = new Patch({
 		name:req.params.name,
@@ -39,6 +43,8 @@ exports.postPatches = function(req, res) {
 }
 
 exports.delPatches = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	Patch.remove({}, function(err) {
 		if (err) 
 			res.send(500, 'Error #203: '+err);
@@ -50,6 +56,8 @@ exports.delPatches = function(req, res) {
 
 
 exports.getPatch = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	_id = req.params._id;
 	Patch.findOne({
 		_id: _id
@@ -64,6 +72,8 @@ exports.getPatch = function(req, res) {
 }
 
 exports.putPatch = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	var myparams = ['name', 'description', 'image_url', 'unlock_function'];
 	if (checkParams(myparams, req)) {
 		Patch.update({_id: req.params._id}, 
@@ -90,6 +100,8 @@ exports.putPatch = function(req, res) {
 }
 
 exports.delPatch = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*"); 
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	_id = req.params._id;
 	Patch.remove({
 		_id: _id
