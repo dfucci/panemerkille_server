@@ -56,8 +56,11 @@ exports.postEvents = function(req, res) {
 		description: req.params.description,
 		facebook_url: req.params.facebook_url,
 		time: time,
+		price: req.params.price,
+		age_limit: req.params.age_limit,
 		venue: req.params.venue
 	});
+	//Check the existence of the venue
 	Venue.findOne({_id: req.params.venue},
 		function(err, venue){
 			if (!err) {
@@ -120,15 +123,16 @@ exports.delEvent = function(req, res) {
 
 exports.EventController = EventController;
 
+/*
 function paramsOK(req) {
 	return _.all(event_params, function(param) { //returns true if all pass the condition
 		return (!_.isUndefined(req.params[param]) || !_.isNull(req.params[param]));
 	});
 
 }
+*/
 
-
-
+/*
 function createEventFromParams(req) {
 	var myevent = createEventName(req);
 	_.each(req.query, function(val, key) {
@@ -139,4 +143,4 @@ function createEventFromParams(req) {
 		}
 	});
 	return myevent;
-}
+}*/
