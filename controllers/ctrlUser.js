@@ -16,7 +16,7 @@ exports.getUsers = function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*"); 
   	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	var usr = createUserFromParams(req);
-	User.find(usr).exec(function(err, users) {
+	User.find(usr,'_id birthdate gender name email registered').exec(function(err, users) {
 		if (!err) {
 			res.send(users);
 		} else {
@@ -69,7 +69,7 @@ exports.getUser = function(req, res) {
 	_id = req.params._id;
 	User.findOne({
 		_id: _id
-	}).populate('patches.patch').populate('checkins.event').exec(function(err, doc) {
+	},'_id name picture_url patches checkins friends').populate('patches.patch', '_id claimed').populate('checkins.event', '_id name poster_url').exec(function(err, doc) {
 		if (err) res.send(500, 'Error #008: ' + err);
 		else if (doc == null) res.send(404, 'The requested user has not been found');
 		else {
@@ -267,14 +267,14 @@ exports.getUserFriends = function(req, res) {
 	var output = new Array();
 	User.findOne({
 		_id: _id
-	}, function(err, user) {
+	}, '_id friends',function(err, user) {
 		if (user.friends.length == 0)
 			res.send(output);
 		else {
 			for (var i = 0; i < user.friends.length; i++) {
 				User.findOne({
 					_id: user.friends[i].friend
-				}).where('checkins').slice(-1).populate('checkins.event').exec(function(err, friend) {
+				}, '_id picture_url checkins name').where('checkins').slice(-1).populate('checkins.event', '_id poster_url name').exec(function(err, friend) {
 					if (err) res.send(500, 'Error #015: ' + err);
 					else {
 						if (friend.checkins.length > 0) output.push(friend);
