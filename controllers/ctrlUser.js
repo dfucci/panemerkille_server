@@ -278,7 +278,7 @@ exports.getUserFriends = function(req, res) {
 				}, '_id picture_url checkins name').where('checkins').slice(-1).populate('checkins.event', '_id poster_url name').exec(function(err, friend) {
 					if (err) res.send(500, 'Error #015: ' + err);
 					else {
-							console.log(friend);
+							console.log(friend._id);
 						if (friend.checkins.length > 0) output.push(friend);
 						count++;
 						if (count == user.friends.length) {
