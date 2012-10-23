@@ -15,7 +15,7 @@ PatchController = function() {};
 exports.getPatches = function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*"); 
   	res.header("Access-Control-Allow-Headers", "X-Requested-With");
-	Patch.find(req.query, function(err, docs) {
+	Patch.find(req.query, '_id name image_url',function(err, docs) {
 		if (err)
 			res.send(500, 'Error #201: '+err);
 		else 
@@ -61,7 +61,7 @@ exports.getPatch = function(req, res) {
 	_id = req.params._id;
 	Patch.findOne({
 		_id: _id
-	}, function(err, doc) {
+	}, 'name description image_url _id',function(err, doc) {
 		if (err) 
 			res.send(500, 'Error #204: '+err);
 		else if (doc == null)

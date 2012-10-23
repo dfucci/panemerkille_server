@@ -22,7 +22,8 @@ exports.getEvents = function(req, res) {
 		oneweek = new Date();
 		oneweek.setDate(oneweek.getDate() + 7);
 	}
-	Event.find({$or:[{'time.end':{$gte:now}, 'time.start':{$lte:now}}, {'time.start':{$gte:now, $lte:oneweek}}]}).sort('time.start').populate('venue').exec(function(err, events){
+	Event.find({$or:[{'time.end':{$gte:now}, 'time.start':{$lte:now}}, {'time.start':{$gte:now, $lte:oneweek}}]}, 'name poster_url _id time venue')
+	.sort('time.start').populate('venue', 'featured name').exec(function(err, events){
 		
 		if (err) {
 			res.send(500, 'Error #301: '+err);
@@ -56,8 +57,11 @@ exports.postEvents = function(req, res) {
 		description: req.params.description,
 		facebook_url: req.params.facebook_url,
 		time: time,
+		price: req.params.price,
+		age_limit: req.params.age_limit,
 		venue: req.params.venue
 	});
+	//Check the existence of the venue
 	Venue.findOne({_id: req.params.venue},
 		function(err, venue){
 			if (!err) {
@@ -86,7 +90,7 @@ exports.getEvent = function(req, res) {
 	_id = req.params._id;
 	Event.findOne({
 		_id: _id
-	}).populate('venue').populate('attenders.attender', '_id name.firstname name.surname picture_url').exec(function(err, doc) {
+	}).populate('venue', 'lat lon name featured _id').populate('attenders.attender', '_id picture_url').exec(function(err, doc) {
 		if (err) 
 			res.send(500, 'Error #304: '+err);
 		else if (doc == null)
@@ -120,15 +124,16 @@ exports.delEvent = function(req, res) {
 
 exports.EventController = EventController;
 
+/*
 function paramsOK(req) {
 	return _.all(event_params, function(param) { //returns true if all pass the condition
 		return (!_.isUndefined(req.params[param]) || !_.isNull(req.params[param]));
 	});
 
 }
+*/
 
-
-
+/*
 function createEventFromParams(req) {
 	var myevent = createEventName(req);
 	_.each(req.query, function(val, key) {
@@ -139,4 +144,4 @@ function createEventFromParams(req) {
 		}
 	});
 	return myevent;
-}
+}*/
