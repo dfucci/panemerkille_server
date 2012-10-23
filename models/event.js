@@ -10,6 +10,8 @@ var eventSchema = new Schema({
 	},
 	poster_url: String,
 	description: String,
+	price: String,
+	age_limit: String,
 	venue: {
 		type: ObjectId,
 		ref: 'Venue'
@@ -18,6 +20,3 @@ var eventSchema = new Schema({
 });
 
 module.exports = db.model('Event', eventSchema);
-// var Event = db.model('Event', eventSchema);
-// module.exports.Event = Event;
-// module.exports.eventSchema = eventSchema;
