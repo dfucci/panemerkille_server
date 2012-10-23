@@ -285,6 +285,7 @@ exports.getUserFriends = function(req, res) {
 						output.push(friend);
 						count++;
 					}
+					else count++;
 						console.log(count);
 						console.log(user.friends.length);
 						if(count == user.friends.length) {
