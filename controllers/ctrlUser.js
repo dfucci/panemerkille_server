@@ -271,7 +271,6 @@ exports.getUserFriends = function(req, res) {
 		if(user.friends.length == 0) res.send(output);
 		else {
 			for(var i = 0; i < user.friends.length; i++) {
-				console.log('g', user.friends[i].friend);
 				User.findOne({
 					_id: user.friends[i].friend
 				}, '_id picture_url checkins name').where('checkins').slice(-1).populate('checkins.event', '_id poster_url name').exec(function(err, friend) {
@@ -286,8 +285,6 @@ exports.getUserFriends = function(req, res) {
 						count++;
 					}
 					else count++;
-						console.log(count);
-						console.log(user.friends.length);
 						if(count == user.friends.length) {
 							res.send(output.sort(compare).reverse());
 						}
