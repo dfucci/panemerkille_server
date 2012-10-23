@@ -1,6 +1,6 @@
 ﻿//TODO: aggiundere la risposta in POST nell'header 'Location' e codice 201
 //Error codes: 0xx
-//Last err: 024
+//Last err: 025
 _ = require('../libs/underscore.js');
 
 var User = require('../models/user.js');
@@ -276,9 +276,9 @@ exports.getUserFriends = function(req, res) {
 				User.findOne({
 					_id: user.friends[i].friend
 				}, '_id picture_url checkins name').where('checkins').slice(-1).populate('checkins.event', '_id poster_url name').exec(function(err, friend) {
-					if (err) res.send(500, 'Error #015: ' + err);
-					else {
-							console.log(friend._id);
+					if (err) console.log('Error #015: ' + err);
+					else if(friend==null) console.log('Error #025: Database inconsistency');
+						else{
 						if (friend.checkins.length > 0) output.push(friend);
 						count++;
 						if (count == user.friends.length) {
