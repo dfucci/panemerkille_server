@@ -11,7 +11,7 @@ var userSchema = new Schema({
 		birthdate:String,
 		gender:String,
 		picture_url:String,
-		facebook_id:String,
+		facebook_id:{type:String, unique:true},
 		email:String,
 		registered:Date,
 		last_access:Date,
