@@ -69,7 +69,7 @@ exports.getUser = function(req, res) {
 	_id = req.params._id;
 	User.findOne({
 		_id: _id
-	}, '_id name picture_url patches checkins friends').populate('patches.patch', '_id claimed name image_url').populate('checkins.event', '_id name venue poster_url').exec(function(err, doc) {
+	}, '_id name picture_url patches checkins friends').populate('patches.patch', '_id claimed name image_url').populate('checkins.event', '_id name poster_url venue').exec(function(err, doc) {
 		if(err) res.send(500, 'Error #008: ' + err);
 		else if(doc == null) res.send(404, 'The requested user has not been found');
 		else {
@@ -399,6 +399,7 @@ function paramsOK(req) {
 		return(!_.isUndefined(req.params[param]) || !_.isNull(req.params[param]));
 	});
 }
+
 
 function createUserName(req) { //porcata micidiale
 	if(!_.isUndefined(req.params.firstname) && !_.isUndefined(req.params.surname)) {
