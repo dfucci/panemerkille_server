@@ -22,7 +22,7 @@ exports.getEvents = function(req, res) {
 		oneweek = new Date();
 		oneweek.setDate(oneweek.getDate() + 7);
 	}
-	Event.find({$or:[{'time.end':{$gte:now}, 'time.start':{$lte:now}}, {'time.start':{$gte:now, $lte:oneweek}}]}, 'name poster_url _id time venue attenders')
+	Event.find({$or:[{'time.end':{$gte:now}, 'time.start':{$lte:now}}, {'time.start':{$gte:now, $lte:oneweek}}]}, 'name poster_url _id time venue')
 	.sort('time.start').populate('venue', 'featured name').exec(function(err, events){
 		
 		if (err) {
