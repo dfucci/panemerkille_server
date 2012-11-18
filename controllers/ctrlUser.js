@@ -400,6 +400,7 @@ function paramsOK(req) {
 	});
 }
 
+
 function createUserName(req) { //porcata micidiale
 	if(!_.isUndefined(req.params.firstname) && !_.isUndefined(req.params.surname)) {
 		myuser = {
