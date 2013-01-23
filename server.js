@@ -8,6 +8,7 @@ var UserController=require("./controllers/ctrlUser.js");
 var VenueController=require("./controllers/ctrlVenue.js");
 var PatchController=require("./controllers/ctrlPatch.js");
 var EventController=require("./controllers/ctrlEvent.js");
+var LeaderboardController=require("./controllers/ctrlLeaderboard.js");
 
 var server = restify.createServer();
 
@@ -57,7 +58,8 @@ server.post('/events', EventController.postEvents);
 server.get('/events/:_id', EventController.getEvent); 
 server.del('/events/:_id', EventController.delEvent); 
 
-
+server.get('/leaderboard', LeaderboardController.getLeaderboard);
+server.get('/leaderboard/:_id', LeaderboardController.getLeaderboardVenue);
 
 server.on('NotFound', function(req, res) {
   res.send(404, req.url + ' was not found');
