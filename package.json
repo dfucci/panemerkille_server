@@ -7,7 +7,6 @@
     "url": "http://github.com/indexzero/api-easy.git" 
   },
   "dependencies": {
-
     "mongoose": "3.5.4",
     "restify":"1.4.3",
     "moment" : "1.7.0"

@@ -10,4 +10,5 @@ var leaderboardSchema = new Schema({
 	}
 );
 
+
 module.exports = db.model('Leaderboard', leaderboardSchema);
