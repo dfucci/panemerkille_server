@@ -1,4 +1,4 @@
-//TODO: aggiundere la risposta in POST nell'header 'Location' e codice 201
+
 //Error codes: 0xx
 //Last err: 025
 _ = require('../libs/underscore.js');
@@ -6,8 +6,10 @@ _ = require('../libs/underscore.js');
 var User = require('../models/user.js');
 var Patch = require('../models/patch.js');
 var Event = require('../models/event.js');
+
 var Venue = require('../models/venue.js');
 var Leaderboard = require('../models/leaderboard.js');
+
 var user_params = ['surname', 'firstname', 'birthdate', 'gender', 'picture_url', 'facebook_id', 'email', 'city'];
 var patchUnlocker = require('../controllers/patchUnlocker.js').patchUnlocker;
 UserController = function() {};
@@ -160,7 +162,9 @@ exports.postUserCheckins = function(req, res) {
 						user.save(function(err) {
 							if(!err) {
 								console.log("Event: Checkin");
+
 								updateLeaderboard();
+
 								Patch.find({}, function(err, patches) {
 									var diff = new Array();
 									if(err) {} else {
@@ -212,6 +216,7 @@ exports.postUserCheckins = function(req, res) {
 										}
 									});
 								}
+
 
 								function filterPatch(patch, diff) {
 									var found = false;
@@ -315,10 +320,11 @@ exports.getUserFriends = function(req, res) {
 					} else if(friend.checkins.length > 0) {
 						output.push(friend);
 						count++;
-					} else count++;
-					if(count == user.friends.length) {
-						res.send(output.sort(compare).reverse());
 					}
+					else count++;
+						if(count == user.friends.length) {
+							res.send(output.sort(compare).reverse());
+						}
 				});
 			}
 		}

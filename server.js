@@ -58,8 +58,10 @@ server.post('/events', EventController.postEvents);
 server.get('/events/:_id', EventController.getEvent); 
 server.del('/events/:_id', EventController.delEvent); 
 
+
 server.get('/leaderboard', LeaderboardController.getLeaderboard);
 server.get('/leaderboard/:_id', LeaderboardController.getLeaderboardVenue);
+
 
 server.on('NotFound', function(req, res) {
   res.send(404, req.url + ' was not found');
