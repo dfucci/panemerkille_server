@@ -3,13 +3,11 @@ var db = require('mongoose')
   ObjectId=Schema.ObjectId;
 
 var leaderboardSchema = new Schema({
-		// venue:{type: ObjectId, ref: 'Venue'},
-		// user:{type:ObjectId, ref:'User'},
-		// 
-		// user:String,
-		// venue:String,
-		totalPoints:Number,
-		tempPoints:Number
-});
+		venue:{type: ObjectId, ref: 'Venue'},
+		user:{type:ObjectId, ref:'User'},
+		totalPoints:{type:Number, default:0},
+		tempPoints:{type:Number, default:0}
+	}
+);
 
 module.exports = db.model('Leaderboard', leaderboardSchema);
