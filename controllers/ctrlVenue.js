@@ -13,7 +13,7 @@ VenueController = function(){};
 exports.getVenues =function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*"); 
   	res.header("Access-Control-Allow-Headers", "X-Requested-With");
-	Venue.find({}, function (err, docs) {
+	Venue.find({}, function (err, docs).sort('-featured name') {
 			
 			if (err)
 				res.send(500, 'Error #101: '+err);
