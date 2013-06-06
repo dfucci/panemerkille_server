@@ -329,7 +329,7 @@ exports.patchUnlocker = {
 			}
 		});
 	},
-		fridayblastFan: function(user, patch_id) {
+			fridayblastFan: function(user, patch_id) {
 		Event.find({
 			tags: {
 				$in: ["fridayblast"]
@@ -339,9 +339,14 @@ exports.patchUnlocker = {
 				console.log('error while unlocking patch', err);
 			} else {
 				var event_ids = _.pluck(events, '_id');
+				
+
 				var count = 0;
 				for (var i = 0; i <= user.checkins.length - 1; i++) {
-					if (_.indexOf(event_ids, user.checkins[i].event._id) != -1) {
+					
+					console.log(typeof event_ids[0]);
+					console.log(typeof user.checkins[i].event._id);
+					if (_.indexOf(event_ids, user.checkins[i].event._id != -1)) {
 						count++;
 					}
 				}
@@ -358,7 +363,7 @@ exports.patchUnlocker = {
 			}
 		});
 	},
-		fridayblastPro: function(user, patch_id) {
+			fridayblastPro: function(user, patch_id) {
 		Event.find({
 			tags: {
 				$in: ["fridayblast"]
@@ -368,9 +373,14 @@ exports.patchUnlocker = {
 				console.log('error while unlocking patch', err);
 			} else {
 				var event_ids = _.pluck(events, '_id');
+				
+
 				var count = 0;
 				for (var i = 0; i <= user.checkins.length - 1; i++) {
-					if (_.indexOf(event_ids, user.checkins[i].event._id) != -1) {
+					
+					console.log(typeof event_ids[0]);
+					console.log(typeof user.checkins[i].event._id);
+					if (_.indexOf(event_ids, user.checkins[i].event._id != -1)) {
 						count++;
 					}
 				}
