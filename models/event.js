@@ -15,7 +15,7 @@ var eventSchema = new Schema({
 		ref: 'Venue'
 	},
 	attenders: [new Schema({attender:{type:ObjectId, ref:'User'}})],
-	tags: [tag:String]
+	tags: [{type:String}]
 });
 
 module.exports = db.model('Event', eventSchema);
