@@ -310,8 +310,9 @@ exports.patchUnlocker = {
 				var count = 0;
 				for (var i = 0; i <= user.checkins.length - 1; i++) {
 					
-					console.log(_.indexOf(event_ids, user.checkins[i].event._id.toString()));
-					if (_.indexOf(event_ids, user.checkins[i].event._id.toString()) != -1) {
+					console.log(typeof event_ids[0]);
+					console.log(typeof user.checkins[i].event._id);
+					if (_.indexOf(event_ids, user.checkins[i].event._id != -1) {
 						count++;
 					}
 				}
