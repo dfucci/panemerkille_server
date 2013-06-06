@@ -322,5 +322,64 @@ exports.patchUnlocker = {
 				}
 			}
 		});
+	},
+		fridayblastFan: function(user, patch_id) {
+		Event.find({
+			tags: {
+				$in: ["fridayblast"]
+			}
+		}, function(err, events) {
+			if (err) {
+				console.log('error while unlocking patch', err);
+			} else {
+				var event_ids = _.pluck(events, '_id');
+				var count = 0;
+				for (var i = 0; i <= user.checkins.length - 1; i++) {
+					if (_.indexOf(event_ids, user.checkins[i].event._id) != -1) {
+						count++;
+					}
+				}
+				if (count >= 4) {
+					user.patches.push({
+						patch: patch_id,
+						timestamp: Date.now()
+					});
+					user.save(function(err) {
+						if (err) console.log(err);
+
+					});
+				}
+			}
+		});
+	},
+		fridayblastPro: function(user, patch_id) {
+		Event.find({
+			tags: {
+				$in: ["fridayblast"]
+			}
+		}, function(err, events) {
+			if (err) {
+				console.log('error while unlocking patch', err);
+			} else {
+				var event_ids = _.pluck(events, '_id');
+				var count = 0;
+				for (var i = 0; i <= user.checkins.length - 1; i++) {
+					if (_.indexOf(event_ids, user.checkins[i].event._id) != -1) {
+						count++;
+					}
+				}
+				if (count >= 7) {
+					user.patches.push({
+						patch: patch_id,
+						timestamp: Date.now()
+					});
+					user.save(function(err) {
+						if (err) console.log(err);
+
+					});
+				}
+			}
+		});
 	}
+
 };
