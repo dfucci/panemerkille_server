@@ -1,5 +1,6 @@
 _ = require('../libs/underscore.js');
 var Venue = require('../models/venue.js');
+var Event = require('../models/event.js');
 exports.patchUnlocker = {
 	tivoliRookie: function(user, patch_id) {
 
