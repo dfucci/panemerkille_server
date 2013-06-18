@@ -307,9 +307,9 @@ exports.patchUnlocker = {
 				var event_ids = _.pluck(events, '_id');
 				var count = 0;
 				for (var i = 0; i <= user.checkins.length - 1; i++) {
-					console.log("event_ids" + event_ids[0]);
-					console.log("user checkins ids" + user.checkins[i].event._id);
-					console.log("event ids len" + event_ids.length);
+					console.log("event_ids " + event_ids[0].toString());
+					console.log("user checkins ids " + user.checkins[i].event._id.toString());
+					console.log("event ids len " + event_ids.length);
 
 					if (_.indexOf(event_ids, user.checkins[i].event._id.toString())!=-1) {
 						count++;
