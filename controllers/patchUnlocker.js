@@ -307,6 +307,7 @@ exports.patchUnlocker = {
 				// var event_ids = _.pluck(events, '_id');
 				var events_ids = [];
 				for(k in events){
+					console.log("k " + k);
 					var obj_id = k._id;
 					console.log("contenuto" + obj_id);
 					console.log("tipo" +typeof obj_id);
