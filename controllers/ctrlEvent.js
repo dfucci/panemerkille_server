@@ -6,7 +6,7 @@ moment = require('moment');
 _ = require('../libs/underscore.js');
 var Event = require('../models/event.js');
 var Venue = require('../models/venue.js');
-var event_params = ['name', 'start', 'end', 'description', 'poster_url', 'facebook_url'];
+var event_params = ['name', 'start', 'end', 'description', 'poster_url', 'facebook_url', 'tags'];
 EventController = function() {};
 
 
