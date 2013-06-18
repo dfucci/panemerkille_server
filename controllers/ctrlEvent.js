@@ -11,7 +11,7 @@ EventController = function() {};
 
 
 exports.getEvents = function(req, res) {
-	res.header("Access-Control-Allow-Origin", "*"); 
+	res.header("Access-Control-Allow-Origin", "*");
   	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	var now;
 	var oneweek;
@@ -24,7 +24,7 @@ exports.getEvents = function(req, res) {
 	}
 	Event.find({$or:[{'time.end':{$gte:now}, 'time.start':{$lte:now}}, {'time.start':{$gte:now, $lte:oneweek}}]}, 'name poster_url _id time venue attenders')
 	.sort('time.start').populate('venue', 'featured name').exec(function(err, events){
-		
+
 		if (err) {
 			res.send(500, 'Error #301: '+err);
 		}else{
@@ -45,12 +45,14 @@ exports.getEvents = function(req, res) {
 }
 
 exports.postEvents = function(req, res) {
-	res.header("Access-Control-Allow-Origin", "*"); 
+	res.header("Access-Control-Allow-Origin", "*");
   	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	var time = {
 		start: req.params.start,
 		end: req.params.end
 	};
+	var tags = [];
+	tags.push(req.params.tags);
 	var event = new Event({
 		name: req.params.name,
 		poster_url: req.params.poster_url,
@@ -59,7 +61,8 @@ exports.postEvents = function(req, res) {
 		time: time,
 		price: req.params.price,
 		age_limit: req.params.age_limit,
-		venue: req.params.venue
+		venue: req.params.venue,
+		tags: tags
 	});
 	//Check the existence of the venue
 	Venue.findOne({_id: req.params.venue},
@@ -85,13 +88,13 @@ exports.postEvents = function(req, res) {
 
 
 exports.getEvent = function(req, res) {
-	res.header("Access-Control-Allow-Origin", "*"); 
+	res.header("Access-Control-Allow-Origin", "*");
   	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	_id = req.params._id;
 	Event.findOne({
 		_id: _id
 	}).populate('venue', 'lat lon name featured _id').populate('attenders.attender', '_id picture_url').exec(function(err, doc) {
-		if (err) 
+		if (err)
 			res.send(500, 'Error #304: '+err);
 		else if (doc == null)
 			res.send(404, "The requested event has not been found");
@@ -103,14 +106,14 @@ exports.getEvent = function(req, res) {
 
 //TODO:tutta da fare
 exports.putEvent = function(req, res) {
-	res.header("Access-Control-Allow-Origin", "*"); 
+	res.header("Access-Control-Allow-Origin", "*");
   	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
 }
 
 
 exports.delEvent = function(req, res) {
-	res.header("Access-Control-Allow-Origin", "*"); 
+	res.header("Access-Control-Allow-Origin", "*");
   	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	_id = req.params._id;
 	Event.remove({
