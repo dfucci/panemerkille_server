@@ -312,10 +312,10 @@ exports.patchUnlocker = {
 				}
 				var count = 0;
 				for (var i = 0; i <= user.checkins.length - 1; i++) {
-					console.log("event_ids " + event_ids[0]);
-					console.log("tipo " + typeof event_ids[0]);
-					console.log("user checkins ids " + user.checkins[i].event._id.toString());
-					console.log("event ids len " + event_ids.length);
+					// console.log("event_ids " + event_ids[0]);
+					// console.log("tipo " + typeof event_ids[0]);
+					// console.log("user checkins ids " + user.checkins[i].event._id.toString());
+					// console.log("event ids len " + event_ids.length);
 
 					if (_.indexOf(event_ids, user.checkins[i].event._id.toString())!=-1) {
 						count++;
@@ -335,7 +335,7 @@ exports.patchUnlocker = {
 			}
 		});
 	},
-			fridayblastFan: function(user, patch_id) {
+	fridayblastFan: function(user, patch_id) {
 		Event.find({
 			tags: {
 				$in: ["fridayblast"]
@@ -344,15 +344,15 @@ exports.patchUnlocker = {
 			if (err) {
 				console.log('error while unlocking patch', err);
 			} else {
-				var event_ids = _.pluck(events, '_id');
-				
-
+				// var event_ids = _.pluck(events, '_id');
+				var event_ids = [];
+				for (var i = 0; i < events.length; i++) {
+					var ev = events[i];
+					event_ids.push(ev._id.toString());
+				}
 				var count = 0;
 				for (var i = 0; i <= user.checkins.length - 1; i++) {
-					
-					console.log(typeof event_ids[0]);
-					console.log(typeof user.checkins[i].event._id);
-					if (_.indexOf(event_ids, user.checkins[i].event._id != -1)) {
+					if (_.indexOf(event_ids, user.checkins[i].event._id.toString() )!=1) {
 						count++;
 					}
 				}
@@ -369,7 +369,7 @@ exports.patchUnlocker = {
 			}
 		});
 	},
-			fridayblastPro: function(user, patch_id) {
+	fridayblastPro: function(user, patch_id) {
 		Event.find({
 			tags: {
 				$in: ["fridayblast"]
@@ -378,14 +378,18 @@ exports.patchUnlocker = {
 			if (err) {
 				console.log('error while unlocking patch', err);
 			} else {
-				var event_ids = _.pluck(events, '_id');
 
+				var event_ids = [];
+				for (var i = 0; i < events.length; i++) {
+					var ev = events[i];
+					event_ids.push(ev._id.toString());
+				}
 				var count = 0;
 				for (var i = 0; i <= user.checkins.length - 1; i++) {
 
-					console.log(typeof event_ids[0]);
-					console.log(typeof user.checkins[i].event._id);
-					if (_.indexOf(event_ids, user.checkins[i].event._id != -1)) {
+					// console.log(typeof event_ids[0]);
+					// console.log(typeof user.checkins[i].event._id);
+					if (_.indexOf(event_ids, user.checkins[i].event._id.toString())!=-1) {
 						count++;
 					}
 				}
