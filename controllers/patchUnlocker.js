@@ -306,13 +306,10 @@ exports.patchUnlocker = {
 			} else {
 				// var event_ids = _.pluck(events, '_id');
 				var events_ids = [];
-				for(k in events){
-					console.log("k " + k);
-					var obj_id = k._id;
-					console.log("contenuto" + obj_id);
-					console.log("tipo" +typeof obj_id);
+				for (var i = 0; i < events.length; i++) {
+					var ev = events[i];
+					events_ids.push(ev._id.toString());
 				}
-
 				var count = 0;
 				for (var i = 0; i <= user.checkins.length - 1; i++) {
 					console.log("event_ids " + event_ids[0]);
