@@ -304,10 +304,15 @@ exports.patchUnlocker = {
 			if (err) {
 				console.log('error while unlocking patch', err);
 			} else {
-				var event_ids = _.pluck(events, '_id');
+				// var event_ids = _.pluck(events, '_id');
+				var events_ids = [];
+				for(k in events){
+					events_ids.push(k['_id'].toString());
+				}
+
 				var count = 0;
 				for (var i = 0; i <= user.checkins.length - 1; i++) {
-					console.log("event_ids " + event_ids[0].toString());
+					console.log("event_ids " + event_ids[0]);
 					console.log("tipo " + typeof event_ids[0]);
 					console.log("user checkins ids " + user.checkins[i].event._id.toString());
 					console.log("event ids len " + event_ids.length);
