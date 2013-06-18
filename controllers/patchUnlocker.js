@@ -308,10 +308,8 @@ exports.patchUnlocker = {
 				var events_ids = [];
 				for(k in events){
 					var obj_id = k._id;
-					var keys_obj = Object.keys(obj_id);
-					for(j in keys_obj){
-						console.log(j);
-					}
+					console.log("contenuto" + obj_id);
+					console.log("tipo" +typeof obj_id);
 				}
 
 				var count = 0;
