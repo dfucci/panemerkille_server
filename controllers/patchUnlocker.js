@@ -363,7 +363,6 @@ exports.patchUnlocker = {
 					});
 					user.save(function(err) {
 						if (err) console.log(err);
-
 					});
 				}
 			}
