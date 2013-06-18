@@ -307,7 +307,11 @@ exports.patchUnlocker = {
 				// var event_ids = _.pluck(events, '_id');
 				var events_ids = [];
 				for(k in events){
-					events_ids.push(k['_id'].toString());
+					var obj_id = k._id;
+					var keys_obj = Object.keys(obj_id);
+					for(j in keys_obj){
+						console.log(j);
+					}
 				}
 
 				var count = 0;
