@@ -308,6 +308,7 @@ exports.patchUnlocker = {
 				var count = 0;
 				for (var i = 0; i <= user.checkins.length - 1; i++) {
 					console.log("event_ids " + event_ids[0].toString());
+					console.log("tipo " + typeof event_ids[0]);
 					console.log("user checkins ids " + user.checkins[i].event._id.toString());
 					console.log("event ids len " + event_ids.length);
 
