@@ -311,7 +311,7 @@ exports.patchUnlocker = {
 					console.log("user checkins ids" + user.checkins[i].event._id.toString());
 					console.log("event ids len" + event_ids.length);
 
-					if (_.indexOf(event_ids, user.checkins[i].event._id != -1)) {
+					if (_.indexOf(event_ids, user.checkins[i].event._id)!=-1) {
 						count++;
 						console.log('entrato');
 					}
