@@ -313,6 +313,7 @@ exports.patchUnlocker = {
 
 					if (_.indexOf(event_ids, user.checkins[i].event._id != -1)) {
 						count++;
+						console.log('entrato');
 					}
 				}
 				if (count >= 1) {
