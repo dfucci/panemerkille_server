@@ -305,10 +305,10 @@ exports.patchUnlocker = {
 				console.log('error while unlocking patch', err);
 			} else {
 				// var event_ids = _.pluck(events, '_id');
-				var events_ids = [];
+				var event_ids = [];
 				for (var i = 0; i < events.length; i++) {
 					var ev = events[i];
-					events_ids.push(ev._id.toString());
+					event_ids.push(ev._id.toString());
 				}
 				var count = 0;
 				for (var i = 0; i <= user.checkins.length - 1; i++) {
